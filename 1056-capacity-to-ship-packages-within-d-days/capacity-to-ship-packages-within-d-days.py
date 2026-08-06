@@ -3,7 +3,7 @@ class Solution:
         low=max(weights)
         high=sum(weights)
 
-        while low<=high:
+        while low<high:
             mid=(low+high)//2
 
             day=1
@@ -15,8 +15,8 @@ class Solution:
                 else:
                     thuu=thuu+i
             if day<=days:
-                high=mid-1
+                high=mid
             else:
                 low=mid+1
-        return low
+        return high
 
