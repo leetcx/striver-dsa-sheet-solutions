@@ -10,10 +10,11 @@ class Solution:
         fast=head
         slow=head
         prev=None
+
         while fast!=None and fast.next!=None:
             prev=slow
             slow=slow.next
             fast=fast.next.next
+       
         prev.next=slow.next
-        
         return head
