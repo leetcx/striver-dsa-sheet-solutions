@@ -10,4 +10,4 @@ class Solution:
                 high=mid
             else:
                 low=mid+1
-        return arr[low:low+k]
+        return arr[low:high+k]
