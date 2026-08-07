@@ -15,6 +15,6 @@ class Solution:
             prev=slow
             slow=slow.next
             fast=fast.next.next
-       
+        prev.next=None
         prev.next=slow.next
         return head
