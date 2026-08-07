@@ -8,7 +8,8 @@ class Solution:
         if head==None :
             return None
         odd=head
-        even=head.next
+        even=odd.next
+        curr=head
         evenhead=even
 
         while even!=None and even.next!=None:
@@ -16,5 +17,6 @@ class Solution:
             odd=odd.next
             even.next=odd.next
             even=even.next
+        
         odd.next=evenhead
         return head
