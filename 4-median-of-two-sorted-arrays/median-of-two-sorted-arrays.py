@@ -8,7 +8,8 @@ class Solution:
         r=n1
         while l<=r:
             cut1=(l+r)//2
-            cut2=(n1+n2+1)//2 -cut1
+            cut2=(n1+n2+1)//2-cut1
+
             if cut1==0:
                 l1=float("-inf")
             else:
@@ -25,17 +26,12 @@ class Solution:
                 r2=float("inf")
             else:
                 r2=nums2[cut2]
-            if cut2==0:
-                l2=float("-inf")
-            else:
-                l2=nums2[cut2-1]
             if l1<=r2 and l2<=r1:
                 if (n1+n2)%2==0:
-                    return (max(l1,l2)+min(r1,r2))/2
+                    return (max(l1,l2)+ min(r1,r2))/2
                 else:
                     return max(l1,l2)
             elif l1>r2:
                 r=cut1-1
             else:
-                l=cut1+1
-            
+                l=cut1+1      
