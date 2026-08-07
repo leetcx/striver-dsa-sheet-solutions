@@ -8,24 +8,18 @@ class Solution:
         if head==None:
             return None
         curr=head
-        lesser=ListNode(-1)
-        tail=lesser
-        greater=ListNode(-1)
-        greathead=greater
-
+        ans=ListNode(-1)
+        tail=ans
+        great=ListNode(-1)
+        greater=great
         while curr!=None:
             if curr.val<x:
                 tail.next=curr
                 tail=tail.next
-                
             else:
-                greathead.next=curr
-                greathead=greathead.next
+                greater.next=curr
+                greater=greater.next
             curr=curr.next
-        greathead.next=None
-        tail.next=greater.next
-        return lesser.next
-
-
-
-
+        greater.next=None
+        tail.next=great.next
+        return ans.next
