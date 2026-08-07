@@ -4,18 +4,13 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
         n=len(nums)
-        set1=[]
-        set2=[]
-
+        ans=[]
+        p=[]
         k=k%n
         if k==0:
             return nums
-        for i in range(n-k,n):
-            set1.append(nums[i])
-        
         for i in range(n-k):
-            set2.append(nums[i])
-        nums[::]=set1+set2
-        
-
-        
+            ans.append(nums[i])
+        for i in range(n-k,n):
+            p.append(nums[i])
+        nums[::]=p+ans
