@@ -6,7 +6,7 @@ class Solution:
         ans=[0]*l
 
         for i in range(l-1,-1,-1):
-            while st and st[-1]<= n[i]:
+            while st and st[-1]<=n[i]:
                 st.pop()
             if len(st)==0:
                 ans[i]=-1
