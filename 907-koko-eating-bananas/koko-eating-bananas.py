@@ -1,5 +1,6 @@
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        n=len(piles)
         low=1
         high=max(piles)
 
@@ -9,8 +10,9 @@ class Solution:
 
             for i in piles:
                 hours+=(i+mid-1)//mid
+
             if hours<=h:
                 high=mid
             else:
                 low=mid+1
-        return low
+        return high
