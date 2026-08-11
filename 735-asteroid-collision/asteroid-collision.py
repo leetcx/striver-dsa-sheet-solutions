@@ -10,10 +10,11 @@ class Solution:
                 if sum==0:
                     st.pop()
                     break
-                elif sum>0:
+                if sum>0:
                     break
-                elif sum<0:
+                if sum<0:
                     st.pop()
             else:
                 st.append(a[i])
         return st
+                    
