@@ -4,7 +4,7 @@ class Solution:
         ans=[]
        
         def backtrack(i):
-            if i== len(nums):
+            if i== len(nums) and temp not in ans:
                 ans.append(temp.copy())
                 return
             backtrack(i+1)
