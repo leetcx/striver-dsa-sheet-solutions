@@ -1,15 +1,12 @@
 class Solution:
-    def dailyTemperatures(self, st1: List[int]) -> List[int]:
-        s1=[]
-        n=len(st1)
-        ans=[0]*n
-
+    def dailyTemperatures(self, temp: List[int]) -> List[int]:
+        n=len(temp)
+        st1=[]
+        ans=[0] * n
         for i in range(n-1,-1,-1):
-            while s1 and st1[i]>=st1[s1[-1]]:
-                s1.pop()
-            if s1:
-                ans[i]=s1[-1]-i
-            s1.append(i)
+            while st1 and temp[st1[-1]] <= temp[i]:
+                st1.pop()
+            if st1:
+                ans[i]=st1[-1]- i
+            st1.append(i)
         return ans
-        
-        
