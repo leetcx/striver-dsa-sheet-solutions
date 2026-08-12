@@ -1,33 +1,30 @@
 class Solution:
-    def maximalRectangle(self, m: List[List[str]]) -> int:
-        m=[[int(cell) for cell in row] for row in m]
-        n=len(m)
-        p=len(m[0])
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        matrix = [[int(char) for char in row] for row in matrix]
         
-        psum = [[0] * p for _ in range(n)]
-        for i in range(p):
+        m=len(matrix)
+        n=len(matrix[0])
+        psum = [[0] * n for _ in range(m)] 
+
+        for i in range(n):
             sum=0
-            for j in range(n):
-                if m[j][i]==1:
-                    sum+=1
+            for j in range(m):
+                if matrix[j][i]==1:
+                    sum=sum+1
                     psum[j][i]=sum
                 else:
                     sum=0
-                
-        octa=len(psum) ##row
-        jio=len(psum[0]) ##column
-        
         maxarea=0
-        for s in range(octa):
+        for i in range (m):
             st=[]
-            for i,h in enumerate(psum[s]):
-                start=i
-                while st and st[-1][1] > h:
+            for j,h in enumerate(psum[i]):
+                start=j
+                while st and st[-1][1]>h:
                     index,height=st.pop()
-                    maxarea= max(maxarea,height *(i-index))
+                    maxarea=max(maxarea,(height*(j-index)))
                     start=index
                 st.append((start,h))
-            for i,h in st:
-                maxarea=(max(maxarea,h*(len(psum[s])-i)))
+            for j,h in st:
+                maxarea=max(maxarea,h*(len(psum[i])-j))
         return maxarea
-        
+
