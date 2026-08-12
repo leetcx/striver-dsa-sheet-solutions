@@ -1,12 +1,12 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        temp=[]
         ans=[]
-       
+        temp=[]
+
         def backtrack(i):
-            if i== len(nums) and temp not in ans:
+            if i==len(nums):
                 ans.append(temp.copy())
-                return
+                return 
             backtrack(i+1)
 
             temp.append(nums[i])
@@ -14,6 +14,3 @@ class Solution:
             temp.pop()
         backtrack(0)
         return ans
-
-
-        
