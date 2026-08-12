@@ -4,18 +4,16 @@ class Solution:
         ans=[]
        
         def backtrack(i,target):
-            if target== 0 :
+            if target==0:
                 ans.append(temp.copy())
-                return
-            if target < 0 or i == len(candidates):
+                return 
+            if target<0 or i==len(candidates):
                 return
             backtrack(i+1,target)
+
 
             temp.append(candidates[i])
             backtrack(i,target-candidates[i])
             temp.pop()
         backtrack(0,target)
-        return ans
-
-
-        
+        return ans            
