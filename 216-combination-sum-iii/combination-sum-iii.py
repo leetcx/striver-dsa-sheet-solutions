@@ -2,17 +2,19 @@ class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
         ans=[]
         temp=[]
-
-        def backtrack(i,n):
-            if n==0 and len(temp)==k :
+        def backtrack(i,sum1):
+            if len(temp)==k and sum1==n:
                 ans.append(temp.copy())
-            if n<0 or i>9 or len(temp)>=k :
-                return 
+                return
+            
             for j in range(i,10):
-                if j>i and j==i:
-                    continue
+                
+                if sum1+j>n:
+                    break
                 temp.append(j)
-                backtrack(j+1,n-j)
+                backtrack(j+1,sum1+j)
                 temp.pop()
-        backtrack(1,n)
+        backtrack(1,0)
         return ans
+                
+
