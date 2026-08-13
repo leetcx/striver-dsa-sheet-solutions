@@ -1,17 +1,19 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
+        ans=[]
         temp=[]
-        ans =[]
-        def backtrack(open,close,n):
+
+        def b(open,close):
             if open==n and close==n:
                 ans.append("".join(temp))
             if open<n:
                 temp.append('(')
-                backtrack(open+1,close,n)
+                b(open+1,close)
                 temp.pop()
             if close<open:
                 temp.append(')')
-                backtrack(open,close+1,n)
+                b(open,close+1)
                 temp.pop()
-        backtrack(0,0,n)
+        b(0,0)
         return ans
+
