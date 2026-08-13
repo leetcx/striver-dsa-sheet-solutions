@@ -1,20 +1,22 @@
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
-        currow=0
+        currows=0
         n=len(s)
-        goingdown=True
         ans=[""] *n
+        if numRows==1:
+            return s
+
+        goingdown=True
+
         for i in s:
-            ans[currow]+=i
+            ans[currows]+=i
 
-            if currow==numRows-1:
-                goingdown=False
-            if currow==0:
+            if currows==0:
                 goingdown=True
+            if currows==numRows-1:
+                goingdown=False
             if goingdown==True:
-                currow+=1
+                currows+=1
             else:
-                currow-=1
+                currows-=1
         return "".join(ans)
-            
-
