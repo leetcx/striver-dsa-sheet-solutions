@@ -12,8 +12,8 @@ class Solution:
             nonlocal ans
             if node==None:
                 return 0
-            a=left=lowest(node.left,p,q)
-            b=right=lowest(node.right,p,q)
+            a=lowest(node.left,p,q)
+            b=lowest(node.right,p,q)
             self=0
             if node==p or node==q:
                 self=1
