@@ -10,42 +10,32 @@ class Solution:
         st2=[]
         node=root
         de=root
-        
         def getsmall():
             nonlocal node
-            
-            
+
             while node:
                 st.append(node)
                 node=node.left
-            
-            
-            p=st.pop()
-                
-            rightchild=p.right
-            while rightchild:
-                st.append(rightchild)
-                rightchild=rightchild.left
-            return p
-            
+            small=st.pop()
+            leftsmall=small.right
+            while leftsmall:
+                st.append(leftsmall)
+                leftsmall=leftsmall.left
+            return small
         def getbig():
-            
             nonlocal de
             while de:
                 st2.append(de)
                 de=de.right
-            
-            
-            p=st2.pop()
-                
-            leftchild=p.left
-            while leftchild:
-                st2.append(leftchild)
-                leftchild=leftchild.right
-            return p
+            big=st2.pop()
+            rightbig=big.left
+            while rightbig:
+                st2.append(rightbig)
+                rightbig=rightbig.right
+            return big
         i=getsmall()
-        j=getbig() 
-        while (i and j and i!=j and i.val<=j.val ):
+        j=getbig()
+        while (i and j and i!=j and i.val<=j.val):
             sum=i.val+j.val
             if sum==k:
                 return True
@@ -53,7 +43,4 @@ class Solution:
                 j=getbig()
             else:
                 i=getsmall()
-        return False   
-          
-
-        
+        return False
