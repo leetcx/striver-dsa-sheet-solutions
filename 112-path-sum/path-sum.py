@@ -8,18 +8,17 @@ class Solution:
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
         h=False
 
-        def path(node,sum):
+        def path(node,sum1):
             nonlocal h
             if node==None:
-                return 
-            sum=sum+node.val
+                return None
+            sum1+=node.val
             if node.left==None and node.right==None:
-                if sum==targetSum:
+                if sum1==targetSum:
                     h=True
                     return
-            path(node.left,sum)
-            path(node.right,sum)
-        path(root, 0)
-        return h
+            path(node.left,sum1)
+            path(node.right,sum1)
         
-            
+        path(root,0)
+        return h
