@@ -6,17 +6,25 @@
 #         self.right = right
 class Solution:
     def minDepth(self, root: Optional[TreeNode]) -> int:
-        def tio(node):
+        def out(node):
             if node==None:
                 return 0
             if node.left==None and node.right==None:
                 return 1
-            if node.left==None:
-                return 1+ tio(node.right)
-            if node.right==None:
-                return 1+ tio(node.left)
-            p=tio(node.left)
-            g=tio(node.right)
-            return 1+min(p,g)
+            if node.left is None:
+                return 1 + out(node.right)
 
-        return tio(root)
+            if node.right is None:
+                return 1 + out(node.left)           
+            leftdepth= out(node.left)
+            rightdepth= out(node.right)
+            return 1+min(leftdepth,rightdepth)
+        return out(root)
+            
+
+
+        
+        
+        
+        
+        
