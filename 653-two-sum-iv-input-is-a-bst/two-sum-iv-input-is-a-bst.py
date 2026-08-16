@@ -6,41 +6,47 @@
 #         self.right = right
 class Solution:
     def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        if root==  None:
+            return 0
         st=[]
         st2=[]
         node=root
         de=root
         def getsmall():
             nonlocal node
-
             while node:
                 st.append(node)
                 node=node.left
-            small=st.pop()
-            leftsmall=small.right
-            while leftsmall:
-                st.append(leftsmall)
-                leftsmall=leftsmall.left
-            return small
+            p=st.pop()
+            small=p.right
+            while small:
+                st.append(small)
+                small=small.left
+            return p
         def getbig():
             nonlocal de
             while de:
                 st2.append(de)
                 de=de.right
-            big=st2.pop()
-            rightbig=big.left
-            while rightbig:
-                st2.append(rightbig)
-                rightbig=rightbig.right
-            return big
-        i=getsmall()
-        j=getbig()
-        while (i and j and i!=j and i.val<=j.val):
-            sum=i.val+j.val
-            if sum==k:
+            i=st2.pop()
+            big=i.left
+            while big:
+                st2.append(big)
+                big=big.right
+            return i
+        m=getsmall()
+        q=getbig()
+
+        while m != q:
+            if m.val + q.val == k:
                 return True
-            if sum>k:
-                j=getbig()
+
+            elif m.val + q.val < k:
+                m = getsmall()
+
             else:
-                i=getsmall()
+                q = getbig()
+
         return False
+        
+            
