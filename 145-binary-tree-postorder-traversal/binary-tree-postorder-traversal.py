@@ -7,14 +7,14 @@
 class Solution:
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         ans=[]
-        def pre(node):
+        def inord(node):
             nonlocal ans
-
             if node==None:
                 return None
            
-            pre(node.left)
-            pre(node.right)
+            
+            inord(node.left)
+            inord(node.right)
             ans.append(node.val)
-        pre(root)
+        inord(root)
         return ans
