@@ -6,18 +6,21 @@
 #         self.right = right
 class Solution:
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
-        chiesa=True
-        def poly(left,right):
-            nonlocal chiesa
+        ans=True
+        def out(left,right):
+            nonlocal ans
             if left==None and right==None:
-                return 
+                return True
             if left==None or right==None:
-                chiesa=False
+                ans=False
                 return
             if left.val!=right.val:
-                chiesa=False
+                ans= False
                 return
-            poly(left.left,right.right)
-            poly(left.right,right.left)
-        poly(root.left,root.right)
-        return chiesa
+                
+            
+            out(left.left,right.right)
+            out(left.right,right.left)
+            
+        out(root,root)
+        return ans
