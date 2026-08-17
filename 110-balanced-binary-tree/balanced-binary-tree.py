@@ -7,17 +7,16 @@
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         ans=True
-        def depth(node):
+        def balance(node):
             nonlocal ans
-            
-            if node==None:
+            if node ==None:
                 return 0
-            p=depth(node.left)
-            c=depth(node.right)
-            
-            if abs(p - c) >1:
+            a=balance(node.left)
+            b=balance(node.right)
+            if abs(a-b)>1:
                 ans=False
-            return max(p,c) +1
-               
-        depth(root)
+            return 1+ max(a,b)
+        balance(root)
         return ans
+            
+            
