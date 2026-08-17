@@ -6,19 +6,19 @@
 #         self.right = right
 class Solution:
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
-        h=False
-
-        def path(node,sum1):
-            nonlocal h
-            if node==None:
-                return None
-            sum1+=node.val
-            if node.left==None and node.right==None:
-                if sum1==targetSum:
-                    h=True
-                    return
-            path(node.left,sum1)
-            path(node.right,sum1)
         
-        path(root,0)
-        return h
+        ans=False
+        def pathy(node,sum1):
+           
+            
+            nonlocal ans
+            if node == None:
+                return False
+            sum1+=node.val
+            if sum1==targetSum and node.left==None and node.right==None:
+                ans=True
+            pathy(node.left,sum1)
+            pathy(node.right,sum1)
+        pathy(root,0)
+        return ans
+        
