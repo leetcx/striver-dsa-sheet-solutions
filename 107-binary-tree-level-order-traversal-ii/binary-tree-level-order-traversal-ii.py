@@ -12,19 +12,17 @@ class Solution:
         q=deque()
         q.append(root)
         ans=[]
-        i=0
         while q:
             p=len(q)
             temp=[]
             while p:
-                g=q.popleft()
-                temp.append(g.val)
-                if g.left !=None:
-                    q.append(g.left)
-                if g.right !=None:
-                    q.append(g.right)
+                t=q.popleft()
+                temp.append(t.val)
+                if t.left !=None:
+                    q.append(t.left)
+                if t.right !=None:
+                    q.append(t.right)
                 p-=1
-           
             ans.append(temp)
         ans.reverse()
         return ans
