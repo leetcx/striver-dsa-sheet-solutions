@@ -7,14 +7,14 @@
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         res=0
-        def dia(node):
+        def mij(node):
             nonlocal res
             if node==None:
                 return 0
-            a=dia(node.left)
-            b=dia(node.right)
-            sum1=a+b
-            res=max(sum1,res)
-            return 1 + max(a,b)
-        dia(root)
+            p=mij(node.left)
+            q=mij(node.right)
+            sum1=p+q
+            res=max(res,sum1)
+            return 1+max(p,q)
+        mij(root)
         return res
