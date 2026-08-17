@@ -9,17 +9,20 @@ class Solution:
     def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
         if root==None:
             return True
+        ans=False
         q=deque()
         q.append(root)
-        bul=False
         while q:
-            s=q.popleft()
-            if s==None:
-                bul=True
-            else:
-                if bul:
-                    return False
-                q.append(s.left)
-                q.append(s.right)
-        return True
-       
+            p=len(q)
+            while p:
+                s=q.popleft()
+                if s==None:
+                    ans=True
+                else:
+                    if ans:
+                        return False
+                    q.append(s.left)
+                    q.append(s.right)
+                p-=1
+        return ans
+
