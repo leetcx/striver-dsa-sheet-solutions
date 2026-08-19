@@ -7,27 +7,24 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        ans=0
         
-       
-        def seti(node,p,q):
-            nonlocal ans
-         
+        ans=None
+        def lca(node,p,q):
             selfi=0
+            total=0
+            nonlocal ans
             if node==None:
                 return 0
             if node==p or node==q:
                 selfi=1
             else:
                 selfi=0
-            
-            left=seti(node.left,p,q)
-            right=seti(node.right,p,q)
-            total=selfi+left+right
-            if total==2 and ans==0:
-               
+            left=lca(node.left,p,q)
+            right=lca(node.right,p,q)
+            total+=selfi + left + right
+            if total == 2 and ans==None:
                 ans=node
             return total
-        seti(root,p,q)
+        lca(root,p,q)
         return ans
-            
+        
