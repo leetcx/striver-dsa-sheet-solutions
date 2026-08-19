@@ -8,21 +8,25 @@ from collections import deque
 class Solution:
     def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
         if root==None:
-            return True
+            return None
         ans=False
         q=deque()
         q.append(root)
         while q:
             p=len(q)
             while p:
-                s=q.popleft()
-                if s==None:
+                t=q.popleft()
+                if t==None:
                     ans=True
                 else:
                     if ans:
                         return False
-                    q.append(s.left)
-                    q.append(s.right)
+                if t!=None:
+                    q.append(t.left)
+                
+
+                    q.append(t.right)
                 p-=1
         return ans
+            
 
