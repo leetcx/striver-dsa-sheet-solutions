@@ -6,33 +6,37 @@
 #         self.right = right
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        ans=True
-        def same(p,q):
-            nonlocal ans
-            if p==None and q==None:
+
+        ans = False
+
+        def check(tree, kai):
+           
+
+            if tree == None and kai == None:
                 return True
-            if p==None or q==None:
-                ans=False
-                return 
-            if p.val != q.val:
-                ans=False
-                return
-            same(p.left,q.left)
-            same(p.right,q.right)
-        def searchroot(r,sb):
+
+            if tree == None or kai == None:
+                
+                return False
+
+            if tree.val != kai.val:
+               
+                return False
+
+            return check(tree.left, kai.left) and check(tree.right, kai.right)
+
+        def find(node):
             nonlocal ans
 
-            if r==None:
-                return None
-            ans=False
-            if r.val==sb.val:
-                ans=True
-                same(r,sb)
-                if ans:
-                    return
-            searchroot(r.left,sb)
-            if ans:
+            if node == None:
                 return
-            searchroot(r.right,sb)
-        searchroot(root,subRoot)
+
+            if node.val == subRoot.val:
+                if check(node, subRoot):
+                    ans = True
+
+            find(node.left)
+            find(node.right)
+
+        find(root)
         return ans
