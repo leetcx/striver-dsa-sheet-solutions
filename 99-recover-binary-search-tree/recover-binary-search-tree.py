@@ -9,37 +9,47 @@ class Solution:
         """
         Do not return anything, modify root in-place instead.
         """
-        g1=None
-        galat=0
-        g2=None
-        s1=None
-        s2=None
         prev=None
-        def fun(node):
-            nonlocal g1
-            nonlocal galat
-            nonlocal g2
-            nonlocal s1           
-            nonlocal s2
+        galat=0
+        g1=0
+        g2=0
+        s1=0
+        s2=0
+        def recov(node):
             nonlocal prev
-            if node== None:
+            nonlocal g1
+            nonlocal g2
+            nonlocal s1
+            nonlocal s2
+            nonlocal galat
+            if node==None:
                 return None
-            fun(node.left)
-           
-            if prev!=None and prev.val> node.val:
+            recov(node.left)
+
+            if prev !=None and prev.val>node.val:
                 if galat==0:
+                    galat+=1
                     g1=prev
                     g2=node
+                elif galat==1:
                     galat+=1
-                else:
                     s1=prev
                     s2=node
-                    galat+=1
+                   
             prev=node
-            fun(node.right)
-        fun(root)
-        if galat==2:
-            g1.val,s2.val=s2.val,g1.val
-        else:
-            g1.val,g2.val=g2.val,g1.val
+            
 
+           
+            
+            recov(node.right)
+            
+                    
+           
+        recov(root)
+        if galat == 1:
+            g1.val, g2.val = g2.val, g1.val
+        else:
+            g1.val, s2.val = s2.val, g1.val
+         
+        
+            
