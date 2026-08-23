@@ -6,22 +6,24 @@
 #         self.right = right
 class Solution:
     def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        
         set1={}
-        for i in range(len(inorder)):
-            set1[inorder[i]]=i
+        for i in range(len(inorder))  :
+            set1[inorder[i]] =i
         preindex=len(postorder)-1
-        def build(low,high):
+        def const(low,high):
             nonlocal preindex
+            nonlocal set1
             if low>high:
-                return None
+                return
             val=postorder[preindex]
             preindex-=1
-
-            root=TreeNode(val)
+            node=TreeNode(val)
             p=set1[val]
             
-            root.right=build(p+1,high)
-            root.left=build(low,p-1)
+            node.right=const(p+1,high)
+            node.left=const(low,p-1)
+            return node
+        return const(0,len(inorder)-1)
+       
 
-            return root
-        return build(0,len(inorder)-1)
