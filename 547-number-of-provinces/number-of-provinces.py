@@ -1,23 +1,55 @@
 class Solution:
-    def findCircleNum(self, nums: List[List[int]]) -> int:
-        n=len(nums)
-        province=0
-        def dfs(nums,i,j,n):
-            
-            nums[i][j]=-99
-            for k in range(n):
-                if nums[j][k] == 1:
-                    dfs(nums, j, k, n)
-               
-        
+    def findCircleNum(self, edges: List[List[int]]) -> int:
+        n=len(edges)
+        adj =[[] for _ in range(n)]
+        visited=[False] * n
+        adj = [[] for _ in range(n)]
+        p=0
+
         for i in range(n):
             for j in range(n):
-                if nums[i][j]==1:
-                    
-                    dfs(nums,i,j,n)
-                    
-                    province+=1
-        return province
+                if edges[i][j] == 1 and i != j:
+                    adj[i].append(j)
+        def dfs(node):
+            
+           
+            visited[node]= True
+            for t in range(len(adj[node])):
+                neigh=adj[node][t]
+                if visited[neigh]==False:
+                    dfs(neigh)
+        for k in range(n):
+            if visited[k]==False:
+                dfs(k)
+                p+=1
+        return p
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
