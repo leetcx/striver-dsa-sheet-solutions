@@ -8,19 +8,24 @@
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         ans=None
-        def lca(node):
-            selfi=0
+        
+        def tui(node):
             nonlocal ans
             if node==None:
                 return 0
+           
             if node==p or node==q:
                 selfi=1
-            left=lca(node.left)
-            right=lca(node.right)
-            total=selfi+left+right
+            else:
+                selfi=0
+            left=tui(node.left)
+            right=tui(node.right)
+            total=left+right+selfi
+            
             if total==2 and ans==None:
-                ans=node
+                ans = node
             return total
-        lca(root)
+                
+        tui(root)
         return ans
             
