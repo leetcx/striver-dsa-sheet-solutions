@@ -11,7 +11,7 @@ class Solution:
                 neigh=graph[node][i]
                 if  color[neigh]==c:
                     return False
-                if visited[neigh]==False:
+                if visited[neigh]==False and color[neigh]!=c:
                     if dfs(neigh,color,visited,1-c)==False:
                         return False
             return True
