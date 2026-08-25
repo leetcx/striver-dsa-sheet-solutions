@@ -8,16 +8,17 @@ class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         prev=None
         ans=True
-        def check(node):
-            nonlocal ans
+        def val(node):
             nonlocal prev
+            nonlocal ans
             if node==None:
-                return None
-            check(node.left)
-            if prev !=None and node.val<= prev.val:
+                return True
+            val(node.left)
+            if prev!=None and prev.val>=node.val:
                 ans=False
+                return
             prev=node
-            check(node.right) 
-           
-        check(root)
-        return ans   
+            
+            val(node.right)
+        val(root)
+        return ans
