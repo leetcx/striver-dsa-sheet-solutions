@@ -10,8 +10,8 @@ class Solution:
         if root==None:
             return []
         q=deque()
-        ans=[]
         q.append(root)
+        ans=[]
         while q:
             p=len(q)
             temp=[]
@@ -20,7 +20,7 @@ class Solution:
                 temp.append(t.val)
                 if t.left !=None :
                     q.append(t.left)
-                if t.right !=None :
+                if t.right !=None:
                     q.append(t.right)
                 p-=1
             ans.append(temp)
