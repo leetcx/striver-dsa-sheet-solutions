@@ -9,7 +9,7 @@ class Solution:
             color[node]=c
             for i in range(len(graph[node])):
                 neigh=graph[node][i]
-                if visited[neigh]==True and color[neigh]==c:
+                if  color[neigh]==c:
                     return False
                 if visited[neigh]==False:
                     if dfs(neigh,color,visited,1-c)==False:
