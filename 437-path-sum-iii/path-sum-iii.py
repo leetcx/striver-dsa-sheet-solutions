@@ -21,7 +21,7 @@ class Solution:
             sum1-=node.val
         def find(node):
             if node==None:
-                return None
+                return 0
             stu(node)
 
             find(node.left)
