@@ -8,25 +8,23 @@ class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
         sum1=0
         c=0
-        def tar(node):
+        def stu(node):
             nonlocal sum1
             nonlocal c
-            if node== None:
-                return 
+            if node==None:
+                return 0
             sum1+=node.val
             if sum1==targetSum:
                 c+=1
-            tar(node.left)
-            tar(node.right)
+            stu(node.left)
+            stu(node.right)
             sum1-=node.val
         def find(node):
             if node==None:
-                return 
-            tar(node)
+                return None
+            stu(node)
 
             find(node.left)
             find(node.right)
         find(root)
         return c
-        
-            
