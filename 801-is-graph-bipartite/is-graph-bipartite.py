@@ -1,23 +1,22 @@
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
-        p=len(graph)
-        color=[-1] *  p
-        visited=[False] *p
-        c=0
-        def dfs(node,graph,color,c):
+        n=len(graph)
+        color=[-1] * n
+        visited=[False]*n
+
+        def dfs(node,color,visited,c):
             visited[node]=True
             color[node]=c
-            for t in range(len(graph[node])):
-                neigh=graph[node][t]
+            for i in range(len(graph[node])):
+                neigh=graph[node][i]
                 if visited[neigh]==True and color[neigh]==c:
                     return False
                 if visited[neigh]==False:
-                    if dfs(neigh,graph,color,1-c)==False:
+                    if dfs(neigh,color,visited,1-c)==False:
                         return False
             return True
-                    
-        for i in range(p):
+        for i in range(n):
             if visited[i]==False:
-                if dfs(i,graph,color,0)==False:
+                if dfs(i,color,visited,0)==False:
                     return False
         return True
