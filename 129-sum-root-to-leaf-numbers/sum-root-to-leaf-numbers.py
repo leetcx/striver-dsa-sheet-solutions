@@ -6,20 +6,18 @@
 #         self.right = right
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        sum1=0
         p=0
-        s=0
-        def sum1(node):
+        def de(node):
+            nonlocal sum1
             nonlocal p
-            nonlocal s
-            if node==None:
-                return
+            if node==None :
+                return 0
             p=p*10+(node.val)
             if node.left ==None and node.right==None:
-                s+=p
-
-            sum1(node.left)
-            sum1(node.right)
+                sum1+=p
+            de(node.left)
+            de(node.right)
             p=p//10
-        sum1(root)
-        return s
-            
+        de(root)
+        return sum1
