@@ -6,19 +6,24 @@
 #         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
-        cal=0
-        path=[]
-        def good(node):
-            nonlocal cal
+        ans=[]
+       
+        c=0
+        def path(node):
+            nonlocal ans
+           
+            nonlocal c
             if node==None:
-                return 0
-            path.append(node.val)
+                return
+            ans.append(node.val)
+            if node.val >=max(ans):
+                c+=1
+            path(node.left)
+            
+            
+            path(node.right)
+            ans.pop()
+        path(root)
+        return c
 
-            if node.val >= max(path):
-                cal+=1
-            good(node.left)
-            good(node.right)
-            path.pop()
-        good(root)
-        return cal
             
