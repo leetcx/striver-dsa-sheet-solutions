@@ -3,15 +3,19 @@ class Solution:
         ans=[]
         temp=[]
         n=len(candidates)
-        def backtrack(i,sum):
-            if sum==target:
-                ans.append(temp.copy())
-            for j in range(i,n):
-                if sum+candidates[j]<=target:
-                    
-                    
-                    temp.append(candidates[j])
-                    backtrack(j,sum+candidates[j])
-                    temp.pop()
-        backtrack(0,0)
+        def backtrack(i,target):
+            if i==n:
+                if target==0:
+                    ans.append(temp.copy())
+                return
+            if candidates[i] > target:
+                backtrack(i+1,target)
+            else:
+                temp.append(candidates[i])
+                backtrack(i,target-candidates[i])
+                temp.pop()
+                
+                backtrack(i+1,target)
+                
+        backtrack(0,target)
         return ans
