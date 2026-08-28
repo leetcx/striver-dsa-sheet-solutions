@@ -1,14 +1,17 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        ans=1
-        next1=1
-        next2=1
-        for i in range(n-2,-1,-1):
-           
-            if i==n:
+        dp=[[-1] *(n+1) for _ in range(n+1)]
+        def path(i,n):
+            if n==0:
                 return 1
-            ans=next1+next2
-            next2=next1
-            next1=ans
-        return ans
+            if dp[i][n] != -1:
+                return dp[i][n]
+            if n>=2:
+                a=path(i+1,n-1)
+                b=path(i+2,n-2)
+                dp[i][n]=a+b
+            elif n==1:
+                dp[i][n]=path(i+1,n-1)
             
+            return dp[i][n]
+        return path(1,n)
