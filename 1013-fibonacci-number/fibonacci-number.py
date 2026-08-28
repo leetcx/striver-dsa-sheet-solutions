@@ -1,17 +1,10 @@
 class Solution:
     def fib(self, n: int) -> int:
-        dp={}
-        def print(n):
-            nonlocal dp
-            if n==0 or n==1:
+        def fib(n):
+            if n==1 or n==0:
                 return n
-            if n in dp:
-                return dp.get(n)
-            a=print(n-1)
-            b=print(n-2)
-            ans=a+b
-            dp[n]=ans
-            return ans
-        return print(n)
-            
-        
+            a=fib(n-1)
+            b=fib(n-2)
+            total=a+b
+            return total
+        return fib(n)
