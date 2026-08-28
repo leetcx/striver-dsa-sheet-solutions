@@ -1,21 +1,18 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
         n=len(nums)
-        dp=[[-1]* 2 for _ in range(n)]
-        def prof(i,free):
-            if i==n:
-                return 0
-            if dp[i][free] != -1:
-                return dp[i][free]
-            if free==1:
-                c1=nums[i] + prof(i+1,free-1)
-                c=prof(i+1,free)
-                p=max(c,c1)
-                dp[i][free]=p
-            else:
-           
-            
-                dp[i][free]=prof(i+1,free+1)
+        dp=[[-1] * 2 for _ in range(n+1)]
+        for i in range(2):
+            dp[n][i]=0
+        for i in range(n+1):
+            dp[i][0]=0
+        for i in range(n-1,-1,-1):
+            for j in range(1,-1,-1):
+                if j==1:
+                    c=nums[i]+ dp[i+1][j-1]
+                    p=dp[i+1][j]
+                    dp[i][j]=max(p,c)
 
-            return dp[i][free]
-        return prof(0,1)
+                else:
+                    dp[i][j]=dp[i+1][j+1]
+        return dp[0][1]
