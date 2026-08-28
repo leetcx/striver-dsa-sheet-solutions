@@ -1,18 +1,21 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
         n=len(nums)
-        d=[[float(inf)] *2 for _ in range(n) ]
-        def money(i,free,nums,n):
-            nonlocal d
+        dp=[[-1]* 2 for _ in range(n)]
+        def prof(i,free):
             if i==n:
                 return 0
-            if free==0:
-                return money(i+1,1,nums,n)
-            if d[i][free] != float('inf'):
-                return d[i][free] 
-            c1=nums[i]+ money(i+1,0,nums,n)
-            c2=money(i+1,1,nums,n)
-            p=max(c1,c2)
-            d[i][free]=p
-            return p
-        return money(0,1,nums,len(nums))
+            if dp[i][free] != -1:
+                return dp[i][free]
+            if free==1:
+                c1=nums[i] + prof(i+1,free-1)
+                c=prof(i+1,free)
+                p=max(c,c1)
+                dp[i][free]=p
+            else:
+           
+            
+                dp[i][free]=prof(i+1,free+1)
+
+            return dp[i][free]
+        return prof(0,1)
