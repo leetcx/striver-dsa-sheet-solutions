@@ -4,7 +4,8 @@ class Solution:
         n=len(arr)
         low=0
         high=n-1    
-        for i in range(n):
+        for i in range(low,high):
+            
             if arr[low] + arr[high] ==target:
                 return[low+1,high+1]
             if arr[low] + arr[high] > target:
