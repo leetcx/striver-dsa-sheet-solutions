@@ -3,20 +3,16 @@ class Solution:
         low=0
         high=0
         sum1=0
-        sum1+=nums[0]
-        minlen=float('inf')
-        while low<=high and high <len(nums):
-            if sum1>=target:
-                p=high-low+1
-                minlen=min(minlen,p)
+        res=float('inf')
+        for high in range(0,len(nums)):
+            sum1+=nums[high]
+            while sum1>=target and low<=high:
+                l=high-low+1
+                res=min(l,res)
+                sum1-=nums[low]
                 low+=1
-                if low<=high:
-                    sum1-=nums[low-1]
-            else:
-                high+=1
-                if high==len(nums):
-                    break
-                sum1+=nums[high]
-        if minlen == float('inf'):
+        if res==float('inf'):
             return 0
-        return minlen
+        return res
+                
+
