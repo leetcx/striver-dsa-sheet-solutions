@@ -7,7 +7,7 @@ class Solution:
         minlen=float('inf')
         while low<=high and high <len(nums):
             if sum1>=target:
-                p=len(nums[low:high+1])
+                p=high-low+1
                 minlen=min(minlen,p)
                 low+=1
                 if low<=high:
