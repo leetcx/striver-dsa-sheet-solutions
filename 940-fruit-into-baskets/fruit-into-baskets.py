@@ -1,21 +1,25 @@
 class Solution:
-    def totalFruit(self, s: List[int]) -> int:
+    def totalFruit(self, fruits: List[int]) -> int:
         low=0
         high=0
-        n=len(s)
         seto={}
-        maxi=float(-inf)
-        for high in range(0,n):
-            if s[high] in seto:
-                seto[s[high]] +=1
+        res=float('-inf')
+        for high in range(len(fruits)):
+            if fruits[high] in seto:
+                seto[fruits[high]]+=1
             else:
-                seto[s[high]]=1
-            while len(seto) > 2:
-                seto[s[low]]-=1
-                if seto[s[low]]==0:
-                    del seto[s[low]]
+                seto[fruits[high]]=1
+            lou=high-low+1
+            while len(seto)>2:
+                seto[fruits[low]]=seto.get(fruits[low],0)-1
+                if  seto[fruits[low]]==0:
+                    del seto[fruits[low]]
                 low+=1
-            if len(seto) <=2:
-                p=high-low+1
-                maxi=max(maxi,p)
-        return maxi
+                lou=high-low+1
+            if len(seto) <= 2:
+                lou=high-low+1
+                res=max(res,lou)
+        if res==float('-inf'):
+            return 0
+        return res
+            
