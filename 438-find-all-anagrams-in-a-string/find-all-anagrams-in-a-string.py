@@ -13,22 +13,22 @@ class Solution:
                 map1[p[i]]+=1
             else:
                 map1[p[i]]=1
-        for high in range(0,len(s)):
-            if s[high] in map2:
-                map2[s[high]]+=1
+        low=0
+        high=t-1
+        for j in range(low,high+1):
+            if s[j] in map2:
+                map2[s[j]]+=1
             else:
-                map2[s[high]]=1
-            
-            while high-low+1>t:
-                map2[s[low]]=map2.get(s[low],0)-1
-                if map2[s[low]]==0:
-                    del map2[s[low]]
-                low+=1
-            if map2==map1:
+                map2[s[j]]=1
+        while high < len(s):
+            if map1==map2:
                 ans.append(low)
+            map2[s[low]]=map2.get(s[low],0)-1
+            if map2[s[low]]==0:
+                del map2[s[low]]
+            low+=1
+            high+=1
+            if high>=len(s):
+                break
+            map2[s[high]]=map2.get(s[high],0)+1
         return ans
-
-
-
-            
-
