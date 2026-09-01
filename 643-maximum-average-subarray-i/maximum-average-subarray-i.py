@@ -3,10 +3,9 @@ class Solution:
         low=0
         high=k-1
         p=sum(nums[low:high+1])
-        
+        avg=p/(high-low+1)
         res=float('-inf')
         while high<len(nums):
-            avg=p/(high-low+1)
             res=max(res,avg)
             
             p=p-nums[low]
@@ -16,5 +15,6 @@ class Solution:
             if high>=len(nums):
                 break
             p+=nums[high]
+            avg=p/(high-low+1)
         return res
         
