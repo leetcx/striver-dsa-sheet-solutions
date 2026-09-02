@@ -2,26 +2,22 @@ class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
         low=0
         high=0
-        seto={}
+        set1={}
+        c=len(s)
         res=float('-inf')
-        for high in range(0,len(s)):
-            if s[high] in seto:
-                seto[s[high]]+=1
+        for high in range(len(s)):
+            if s[high] in set1:
+                set1[s[high]]+=1
             else:
-                seto[s[high]]=1
-            l1=high-low+1
-            diff=l1-max(seto.values())
-            while diff>k:
-                seto[s[low]]=seto.get(s[low],0)-1
-                if seto[s[low]]==0:
-                    del seto[s[low]]
+                set1[s[high]]=1
+            p = (high - low + 1) - max(set1.values())
+            while p>k :
+                set1[s[low]]=set1.get(s[low],0)-1
+                if set1[s[low]]==0:
+                    del set1[s[low]]
                 low+=1
-                l1=high-low+1
-                diff=l1-max(seto.values())
-            if diff<=k:
-                
-                
-                res=max(res,l1)
-        if res == float('-inf'):
-            return 0
+                p=(high - low + 1) -max(set1.values())
+            res=max(res,high-low+1)
         return res
+
+
