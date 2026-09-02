@@ -10,7 +10,7 @@ class Solution:
             else:
                 set1[cards[high]]=1
             
-            while set1[cards[high]]>=2 and low<high:
+            while set1[cards[high]]==2 and low<high:
                 res=min(res,high-low+1)
                 set1[cards[low]]=set1.get(cards[low])-1
                 if set1[cards[low]] == 0:
