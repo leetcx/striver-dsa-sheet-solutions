@@ -1,10 +1,9 @@
 class Solution:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
         nums.sort()
-        sum1=0
         ans=[]
-        for i in range(0,len(nums)):
-            if i > 0 and nums[i]==nums[i-1]:
+        for i in range(len(nums)):
+            if i>0 and nums[i]==nums[i-1]:
                 continue
             low=i+1
             high=len(nums)-1
@@ -21,7 +20,6 @@ class Solution:
                 else:
                     if sum1>0:
                         high-=1
-                    elif sum1<0:
+                    else:
                         low+=1
         return ans
-                    
