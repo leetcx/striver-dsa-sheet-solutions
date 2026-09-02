@@ -1,24 +1,20 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        low=0
-        high=0
-        seto={}
+        low = 0
+        high =0
         res=float('-inf')
-        for high in range(0,len(s)):
-            if s[high] in seto:
-                seto[s[high]]+=1
+        set1={}
+        for high in range(len(s)):
+            if s[high] in set1:
+                set1[s[high]]+=1
             else:
-                seto[s[high]]=1
-            k=high-low+1
-            while len(seto) < k:
-                seto[s[low]]=seto.get(s[low],0)-1
-                if seto[s[low]]==0:
-                    del seto[s[low]]
+                set1[s[high]]=1
+            while high-low+1>len(set1):
+                set1[s[low]]=set1.get(s[low],0)-1
+                if set1[s[low]]==0:
+                    del set1[s[low]]
                 low+=1
-                k=high-low+1
-            if len(seto)==k:
-                k=high-low+1
-                res=max(res,k)
+            res=max(res,high-low+1)
         if res==float('-inf'):
             return 0
         return res
