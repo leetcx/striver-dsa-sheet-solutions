@@ -1,15 +1,17 @@
 class Solution:
-    def twoSum(self, arr: List[int], target: int) -> List[int]:
-        dic={}
-        n=len(arr)
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
         low=0
-        high=n-1    
-        for i in range(low,high):
-            
-            if arr[low] + arr[high] ==target:
-                return[low+1,high+1]
-            if arr[low] + arr[high] > target:
-                high-=1
-            elif arr[low] + arr[high] < target:
-                low+=1
-        
+        high=len(nums)-1
+        ans=[] 
+        while low<high:
+            sum1=nums[low]+nums[high]
+            if sum1==target:
+                ans.append(low+1)
+                ans.append(high+1)
+                break
+            else:
+                if sum1>target:
+                    high-=1
+                else:
+                    low+=1
+        return ans
