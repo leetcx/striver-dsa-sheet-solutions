@@ -1,34 +1,27 @@
 class Solution:
-    def countCompleteSubarrays(self, nums: List[int]) -> int:
-        seti={}
-        for i in range(len(nums)):
-                if nums[i] in seti:
-                    seti[nums[i]]+=1
-                else:
-                    seti[nums[i]]=1
-        k=len(seti)
-        def atmost(k):
-            low=0
-            high=0
-            seto={}
-            count=0
-            c=0
+    def countCompleteSubarrays(self, s: List[int]) -> int:
+        set2={}
+        k=0
+        set1={}
+        count=0
+        low=0
+        for i in range(len(s)):
+            if s[i] not in set2:
+                k+=1
+
             
-            for high in range(len(nums)):
-                if nums[high] in seto:
-                    seto[nums[high]]+=1
-                else:
-                    seto[nums[high]]=1
-                while len(seto) > k:
-                    seto[nums[low]]=seto.get(nums[low],0)-1
-                    if seto[nums[low]]==0:
-                        del seto[nums[low]]
-                    low+=1
-                    
-                
-                
-               
-                count+=high-low+1
-            return count
-        return atmost(k)-atmost(k-1)
-                
+                set2[s[i]]=1
+        
+        for high in range(len(s)):
+            if s[high] in set1:
+                set1[s[high]]+=1
+            else:
+                set1[s[high]]=1
+            while len(set1)==k:
+                count+=len(s)-high
+                set1[s[low]]=set1.get(s[low],0)-1
+                if set1[s[low]]==0:
+                    del set1[s[low]]
+                low+=1
+        return count
+                   
