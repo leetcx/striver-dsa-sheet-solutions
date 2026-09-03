@@ -5,13 +5,17 @@ class Solution:
         res=float('-inf')
         while low<high:
             if nums[low]<nums[high]:
-                p=nums[low]*(high-low)
-                res=max(res,p)
+                area=nums[low] * (high-low)
+                res=max(res,area)
                 low+=1
-            elif nums[high]<=nums[low]:
-                p=nums[high]*(high-low)
-                res=max(res,p)
+            elif nums[low]>nums[high]:
+                area=nums[high] * (high-low)
+                res=max(res,area)
                 high-=1
+            else:
+                area=nums[high] * (high-low)
+                res=max(res,area)
+                low+=1
+                
         return res
-
-          
+            
