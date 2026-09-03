@@ -18,5 +18,3 @@ class Solution:
                 count+=high-low+1
             return count
         return atmost(k)-atmost(k-1)
-                
-                
