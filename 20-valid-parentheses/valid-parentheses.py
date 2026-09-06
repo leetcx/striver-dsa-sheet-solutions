@@ -3,20 +3,17 @@ class Solution:
         n=len(s)
         if n%2!=0:
             return False
-        ans=[]
-
-        for i in s:
-            if i=='(' or i=='{' or i=='[':
-                ans.append(i)   
+        st=[]
+        for i in range(len(s)):
+            if s[i]=='(' or s[i]=='{' or s[i]=='[':
+                st.append(s[i])
             else:
-                if len(ans)==0:
+                if not st:
                     return False
-                top=ans.pop()
-                if i==')' and top!='(':
+                if (s[i]==')' and st[-1] !='(') or  (s[i]=='}' and st[-1] !='{') or (s[i]==']' and st[-1] !='['):
                     return False
-                if i=='}' and top!='{':
-                    return False
-                if i==']' and top!='[':
-                    return False
-        return len(ans)==0
-                   
+                else:
+                    st.pop()
+        if  st:
+            return False
+        return True
