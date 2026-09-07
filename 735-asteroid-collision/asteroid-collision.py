@@ -1,20 +1,35 @@
 class Solution:
-    def asteroidCollision(self, a: List[int]) -> List[int]:
-        n=len(a)
+    def asteroidCollision(self, nums: List[int]) -> List[int]:
         st=[]
+        
+        st.append(nums[0])
+        for i in range(1,len(nums)):
+            if not st:
+                st.append(nums[i])
+                continue
 
-        for i in range(n):
-            
-            while st and st[-1]>0 and a[i]<0:
-                sum=st[-1]+a[i]
-                if sum==0:
+            if (st[-1] > 0 and nums[i] > 0) or \
+               (st[-1] < 0 and nums[i] > 0) or \
+               (st[-1] < 0 and nums[i] < 0):
+                st.append(nums[i])
+                continue
+
+            while st and st[-1] >0 and nums[i]<0:
+                if abs(st[-1]) < abs(nums[i]):
+                    st.pop()
+                    continue
+                elif abs(st[-1]) == abs(nums[i]):
                     st.pop()
                     break
-                if sum>0:
+                else:
                     break
-                if sum<0:
-                    st.pop()
             else:
-                st.append(a[i])
-        return st
-                    
+                st.append(nums[i])
+
+        ans=[]
+        while st:
+            ans.append(st[-1])
+            st.pop()
+        ans.reverse()
+        return ans
+            
