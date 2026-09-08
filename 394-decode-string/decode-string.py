@@ -1,27 +1,29 @@
 class Solution:
     def decodeString(self, s: str) -> str:
-        st=[]
-        curr=""
         num=0
-        for i in range(len(s)):
+        word=""
+        st=[]
+        t=len(s)
+        i=0
+        while i<t:
             if s[i]=='[':
-                st.append((curr,num))
-                curr=""
+                st.append((word,num))
+                word=""
                 num=0
-                continue
-            if s[i]==']':
-                if st:
-                    prev,n=st.pop()
-                    curr=prev+n*curr
-                    prev=curr
-                    n=num
-                else:
-                    return curr
+                i+=1
+            elif st and s[i]==']':
+                prev,n=st.pop()
+                word=prev+ n * word
+                prev=word
+                i+=1
             else:
                 if s[i].isdigit():
-                    num=num*10+int(s[i])
-                    continue
-                else:
-                    curr+=s[i]
-        return curr
-       
+                    num=num*10 + int(s[i])
+                    i+=1
+                elif s[i].isalpha():
+                    word+=s[i]
+                    i+=1
+
+
+        return word
+                
