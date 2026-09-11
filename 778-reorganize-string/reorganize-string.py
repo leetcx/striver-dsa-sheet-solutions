@@ -8,8 +8,8 @@ class Solution:
                 set1[i]+=1
             else:
                 set1[i]=1
-        for element,frequency in set1.items():
-            heapq.heappush(maxheap,(-frequency,element))
+        for ele,freq in set1.items():
+            heapq.heappush(maxheap,(-freq,ele))
         res=""
         while maxheap:
             freq,ele=heapq.heappop(maxheap)
@@ -20,17 +20,13 @@ class Solution:
                     heapq.heappush(maxheap,(freq,ele))
             else:
                 if maxheap:
-                    fr,el=heapq.heappop(maxheap)
-                    res+=el
-                    fr+=1
-                    if fr < 0:
-                        heapq.heappush(maxheap,(fr,el))
+                    freq1,ele1=heapq.heappop(maxheap)
+                    res+=ele1
+                    freq1+=1
+                    if freq1<0:
+                       heapq.heappush(maxheap,(freq1,ele1))
                     heapq.heappush(maxheap,(freq,ele))
-                else:
-                    return ""
+        if len(res) != len(s):
+            return ""
         return res
 
-
-
-
-        
