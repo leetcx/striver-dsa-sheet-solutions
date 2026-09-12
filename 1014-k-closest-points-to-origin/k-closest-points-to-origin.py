@@ -1,24 +1,23 @@
-import math
-
-
 import heapq
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         def dist(i):
-            k=i[0]*i[0] + i[1]*i[1]
-            decu=math.sqrt(k)
-            return decu
+            k=i[0] * i[0] + i[1] * i[1]
+            return k
         maxheap=[]
         for i in points:
-            t=dist(i)
+            p=dist(i)
             if len(maxheap)<k:
-                heapq.heappush(maxheap,(-t,i))
+                heapq.heappush(maxheap,(-p,i))
             else:
-                if t<-maxheap[0][0]:
-                    heapq.heappop(maxheap)
-                    heapq.heappush(maxheap,(-t,i))
+                t,idx=heapq.heappop(maxheap)
+                if p< -t:
+                    heapq.heappush(maxheap,(-p,i))
+                else:
+                    heapq.heappush(maxheap,(t,idx))
+
         res=[]
         while maxheap:
-            res.append(maxheap[0][1])
-            heapq.heappop(maxheap)
+            i,j=heapq.heappop(maxheap)
+            res.append(j)
         return res
