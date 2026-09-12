@@ -9,4 +9,4 @@ class Solution:
                 if nums[i] > minheap[0]:
                     heapq.heappop(minheap)
                     heapq.heappush(minheap,nums[i])
-        return minheap[0]
+        return minheap[0] 
