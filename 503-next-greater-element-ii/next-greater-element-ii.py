@@ -1,18 +1,14 @@
 class Solution:
     def nextGreaterElements(self, nums: List[int]) -> List[int]:
         nums+=nums
-        p=len(nums)
+        d=len(nums)
+        temp=[-1] * d
         st=[]
-        st.append(nums[-1])
-        ans=[0] * p
-        for i in range(len(nums)-2,-1,-1):
+        for i in range(len(nums)-1,-1,-1):
             while st and st[-1] <= nums[i]:
                 st.pop()
-            if not st:
-                ans[i]=-1
-            else:
-                ans[i]=st[-1]
+            if st:
+                temp[i]=st[-1]
             st.append(nums[i])
-        p=p//2
-        return ans[:p]
-            
+        m=d//2
+        return temp[:m]
