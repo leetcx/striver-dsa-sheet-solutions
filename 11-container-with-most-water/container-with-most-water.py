@@ -1,21 +1,15 @@
 class Solution:
-    def maxArea(self, nums: List[int]) -> int:
+    def maxArea(self, height: List[int]) -> int:
         low=0
-        high=len(nums)-1
+        high=len(height)-1
         res=float('-inf')
         while low<high:
-            if nums[low]<nums[high]:
-                area=nums[low] * (high-low)
+            if height[low]<height[high]:
+                area=height[low] * (high-low)
                 res=max(res,area)
                 low+=1
-            elif nums[low]>nums[high]:
-                area=nums[high] * (high-low)
+            else:
+                area=height[high] * (high-low)
                 res=max(res,area)
                 high-=1
-            else:
-                area=nums[high] * (high-low)
-                res=max(res,area)
-                low+=1
-                
         return res
-            
