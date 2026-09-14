@@ -5,7 +5,7 @@ class Solution:
         sum1=0
         for i in range(len(nums)):
             sum1+=nums[i]
-            prev=(sum1%k)%k
+            prev=(sum1%k)
             if prev in set1:
                 count+=set1[prev]
             if (sum1%k) in set1:
