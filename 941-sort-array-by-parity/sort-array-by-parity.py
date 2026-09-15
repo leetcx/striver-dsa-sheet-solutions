@@ -1,19 +1,17 @@
 class Solution:
     def sortArrayByParity(self, nums: List[int]) -> List[int]:
-        n=len(nums)
+        ans=[]
+        odd=[]
         low=0
-        mid=0
-        high=n-1
-        while mid<=high:
-            if nums[mid]%2==0:
-                temp=nums[mid]
-                nums[mid]=nums[low]
-                nums[low]=temp
-                low+=1
-                mid+=1
+        high=len(nums)-1
+        
+        while low<=high:
+            if nums[low]%2==0:
+                ans.append(nums[low])
+                
             else:
-                temp=nums[mid]
-                nums[mid]=nums[high]
-                nums[high]=temp
-                high-=1
-        return nums
+                odd.append(nums[low])
+            low+=1
+        r=ans+odd
+        return r
+
