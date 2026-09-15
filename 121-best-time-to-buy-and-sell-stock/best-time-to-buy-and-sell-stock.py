@@ -1,23 +1,19 @@
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        n=len(prices)
-        dp=[[-1] * 3 for _ in range(n)]
-        def best(i,trans):
-           
-            if i==n or trans==0:
-                return 0
-            if dp[i][trans] != -1:
-                return dp[i][trans]
-            elif trans==1:
-                c=best(i+1,trans-1) + prices[i]
-                c1=best(i+1,trans)
+    def maxProfit(self, nums: list[int]) -> int:
+        maxpro=float('-inf')
+        low=0
+        high=0
+        while low<=high and high<len(nums):
+            if nums[low]>=nums[high]:
+                low=high
+                high+=1
                 
             else:
                 
-                c=best(i+1,trans-1) - prices[i]
-                c1=best(i+1,trans)
-            dp[i][trans] =max(c,c1)
-            return dp[i][trans]
-        return best(0,2)
+                profit=nums[high]-nums[low]
+                maxpro=max(maxpro,profit)
+                high+=1
+        if maxpro==float('-inf'):
+            return 0
+        return maxpro
 
-            
