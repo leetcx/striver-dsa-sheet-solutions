@@ -18,14 +18,16 @@ class Solution:
         if set1==set2:
             return True
         low=0
-        high=p
+        high=p-1
         while high<len(s2):
             set2[s2[low]]=set2.get(s2[low],0)-1
             if set2[s2[low]]==0:
                 del set2[s2[low]]
             low+=1
-            set2[s2[high]]=set2.get(s2[high],0)+1
             high+=1
+            if high<len(s2):
+                set2[s2[high]]=set2.get(s2[high],0)+1
+            
             if set1==set2:
                 return True
         return False
