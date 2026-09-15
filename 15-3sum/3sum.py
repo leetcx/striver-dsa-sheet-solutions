@@ -9,22 +9,18 @@ class Solution:
             high=len(nums)-1
             while low<high:
                 sum1=nums[i]+nums[low]+nums[high]
-                
                 if sum1==0:
                     ans.append((nums[i],nums[low],nums[high]))
                     low+=1
                     high-=1
-                    while low<high  and nums[low]==nums[low-1]:
+                    while low<high and nums[low]==nums[low-1]:
                         low+=1
-                        continue
-                    while low<high  and nums[high]==nums[high+1]:
+                    while low<high and nums[high]==nums[high+1]:
                         high-=1
-                        continue
                 else:
                     if sum1>0:
                         high-=1
                     else:
                         low+=1
         return ans
-
                     
