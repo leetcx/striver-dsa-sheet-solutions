@@ -12,6 +12,7 @@ class Solution:
             else:
                 odd.append(nums[low])
             low+=1
-        r=ans+odd
-        return r
+        nums[:]=ans+odd
+
+        return nums
 
