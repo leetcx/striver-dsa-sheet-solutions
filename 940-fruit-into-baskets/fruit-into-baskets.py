@@ -1,8 +1,8 @@
 class Solution:
-    def totalFruit(self, fruits: List[int]) -> int:
-        low=0
+    def totalFruit(self, fruits: list[int]) -> int:
         set1={}
-        res=float('-inf')
+        low=0
+        max1=float('-inf')
         for high in range(len(fruits)):
             if fruits[high] in set1:
                 set1[fruits[high]]+=1
@@ -13,6 +13,5 @@ class Solution:
                 if set1[fruits[low]]==0:
                     del set1[fruits[low]]
                 low+=1
-            res=max(res,high-low+1)
-        return res
-            
+            max1=max(max1,high-low+1)
+        return max1
