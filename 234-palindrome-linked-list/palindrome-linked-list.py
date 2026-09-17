@@ -4,28 +4,32 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+    def isPalindrome(self, head: ListNode | None) -> bool:
+        if head==None:
+            return True
         slow=head
         fast=head
-        while fast !=None and fast.next !=None:
+        while fast and fast.next and fast.next.next:
             slow=slow.next
             fast=fast.next.next
-        curr=slow
+        
+        p=slow
+        second=p.next
+        p.next=None
+        d=second
         prev=None
-        while curr:
-            temp=curr.next
-            curr.next=prev
-            prev=curr
-
-            curr=temp
-        slow=head
-        fast=prev
-        while fast!=None:
-            if slow.val !=fast.val:
+        while d:
+            temp=d.next
+            d.next=prev
+            prev=d
+            d=temp
+        second=prev
+        g=second
+        t=head
+        while g and t:
+            if g.val != t.val:
                 return False
-            slow=slow.next
-            fast=fast.next
+            g=g.next
+            t=t.next
         return True
         
-           
-            
