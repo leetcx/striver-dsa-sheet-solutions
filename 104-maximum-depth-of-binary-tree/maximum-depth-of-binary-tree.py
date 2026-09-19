@@ -11,7 +11,7 @@ class Solution:
         def maxdep(curr):
             if curr==None:
                 return 0
-            left=1+maxdep(curr.left)
-            right=1+maxdep(curr.right)
-            return max(left,right)
+            left=maxdep(curr.left)
+            right=maxdep(curr.right)
+            return 1+max(left,right)
         return maxdep(root)
