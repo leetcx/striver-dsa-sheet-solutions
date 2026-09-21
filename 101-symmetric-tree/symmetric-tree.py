@@ -5,20 +5,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
-        ans=True
-        def check(left,right):
-            nonlocal ans
-           
-            if left==None and right==None:
+    def isSymmetric(self, root: TreeNode | None) -> bool:
+        
+        if root==None:
+            return True
+        def check(p,q):
+            
+            if p==None and q==None:
                 return True
-            if left==None or right==None:
-                ans=False
-                return
-            if left.val != right.val:
-                ans=False
-            check(left.left,right.right)
-            check(left.right,right.left)
-
-        check(root.left,root.right)
-        return ans
+            if p==None or q==None:
+                
+                return False
+            if p.val != q.val:
+                
+                return False
+            left=check(p.left,q.right)
+            right=check(p.right,q.left)
+            return left and right
+        return check(root.left,root.right)
+       
