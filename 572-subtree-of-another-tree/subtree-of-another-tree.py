@@ -5,38 +5,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-
-        ans = False
-
-        def check(tree, kai):
-           
-
-            if tree == None and kai == None:
+    def isSubtree(self, root: TreeNode | None, subRoot: TreeNode | None) -> bool:
+        def check(p,q):
+            if p==None and q==None:
                 return True
-
-            if tree == None or kai == None:
-                
+            if p==None or q==None:
                 return False
-
-            if tree.val != kai.val:
-               
+            if p.val!=q.val:
                 return False
-
-            return check(tree.left, kai.left) and check(tree.right, kai.right)
-
-        def find(node):
-            nonlocal ans
-
-            if node == None:
-                return
-
-            if node.val == subRoot.val:
-                if check(node, subRoot):
-                    ans = True
-
-            find(node.left)
-            find(node.right)
-
-        find(root)
-        return ans
+            return check(p.left,q.left) and check(p.right,q.right)
+        def find(curr):
+            if curr==None :
+                return False
+            if curr.val==subRoot.val:
+                if check(curr,subRoot):
+                    return True
+            left=find(curr.left)
+            right=find(curr.right)
+            return left or right
+        return find(root)
