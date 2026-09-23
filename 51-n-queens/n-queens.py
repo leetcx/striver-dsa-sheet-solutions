@@ -2,26 +2,11 @@ class Solution:
     def solveNQueens(self, n: int) -> list[list[str]]:
         board=[["."]*n for _ in range(n)]
         ans=[]
-        def isvalid(board,row,i):
-            for p in range(row,-1,-1):
-                if board[p][i]=="Q":
-                    return False
-                    break
-            r,c=row,i
-            while r>=0 and c<n:
-                if board[r][c]=="Q":
-                    return False
-                    break
-                r-=1
-                c+=1
-            r,c=row,i
-            while r>=0 and c>=0:
-                if board[r][c]=="Q":
-                    return False
-                    break
-                r-=1
-                c-=1
-            return True
+        cols={}
+        diag1={}
+        diag2={}
+        def isvalid(board,row,i,diag1,diag):
+            return (i not in cols )and (row+i not in diag1) and (row-i not in diag2)
             
         def solve(board,row):
             
@@ -30,10 +15,16 @@ class Solution:
                 ans.append(["".join(r) for r in board])
                 return
             for i in range(n):
-                if isvalid(board,row,i):
+                if isvalid(board,row,i,diag1,diag2):
                     board[row][i]="Q"
+                    cols[i]=True
+                    diag1[row+i]=True
+                    diag2[row-i]=True
                     solve(board,row+1)
                     board[row][i]="."
+                    del cols[i]
+                    del diag1[row+i]
+                    del diag2[row-i]
         solve(board,0)
         return ans
                     
