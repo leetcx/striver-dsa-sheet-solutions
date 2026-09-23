@@ -1,19 +1,36 @@
 class Solution:
-    def generateParenthesis(self, n: int) -> List[str]:
+    def generateParenthesis(self, n: int) -> list[str]:
+        temp=["("]
+        balance=1
+        open=1
         ans=[]
-        temp=[]
-
-        def b(open,close):
-            if open==n and close==n:
-                ans.append("".join(temp))
+        def solve():
+            nonlocal temp
+            nonlocal ans 
+            nonlocal open
+            nonlocal balance
+            if len(temp)==2*n:
+                ans.append("".join(temp.copy()))
+                return
             if open<n:
-                temp.append('(')
-                b(open+1,close)
+                temp.append("(")
+                balance+=1
+                open+=1
+                solve()
                 temp.pop()
-            if close<open:
-                temp.append(')')
-                b(open,close+1)
+                balance-=1
+                open-=1
+            if balance>0:
+                temp.append(")")
+                balance-=1
+                
+                solve()
                 temp.pop()
-        b(0,0)
+                balance+=1
+        solve()
         return ans
+        
+
+                
+
 
