@@ -24,20 +24,14 @@ class Solution:
 
             for ch1 in phone[digits[i]]:
                 temp.append(ch1)
-
-                if i + 1 < len(digits):
-
-                    for ch2 in phone[digits[i + 1]]:
+                if i+1<len(digits):
+                    for ch2 in phone[digits[i+1]]:
                         temp.append(ch2)
-
-                        solve(i + 2)
-
+                        solve(i+2)
                         temp.pop()
                 else:
-                    solve(i + 1)
-
+                    solve(i+1)
                 temp.pop()
-
         solve(0)
         return ans
-        
+                
