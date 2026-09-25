@@ -49,11 +49,14 @@ class Solution:
             nonlocal new
             nonlocal used
             nonlocal x
+            nonlocal ans
             if len(new)>x:
                 return
             
-            if len(new)>0 and isvalid(new):
-                ans.append(new.copy())
+            if len(new) > 0 and len(new) >= len(ans):
+                if isvalid(new):
+                    if len(new) > len(ans) or (len(new) == len(ans) and new > ans):
+                        ans = new.copy()
             chars = list(used.keys())
             for ch in chars:
                 if used[ch]==0:
@@ -66,11 +69,8 @@ class Solution:
                 new.pop()
             
         found(key)
-        ans.sort(key=lambda x: (len(x), x), reverse=True)
-        if len(ans)>0:
-            mp="".join(ans[0])
-            return mp
-        return ""
+        
+        return "".join(ans)
 
 
 
