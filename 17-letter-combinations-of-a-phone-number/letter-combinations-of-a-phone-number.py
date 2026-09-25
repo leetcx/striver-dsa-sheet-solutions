@@ -22,24 +22,19 @@ class Solution:
                 ans.append("".join(temp))
                 return
 
-            # First nested level
             for ch1 in phone[digits[i]]:
                 temp.append(ch1)
 
-                # Second nested level
                 if i + 1 < len(digits):
+
                     for ch2 in phone[digits[i + 1]]:
                         temp.append(ch2)
 
-                        # Backtracking handles everything after these 2
-                        if i + 2 < len(digits):
-                            solve(i + 2)
-                        else:
-                            ans.append("".join(temp))
+                        solve(i + 2)
 
                         temp.pop()
                 else:
-                    ans.append("".join(temp))
+                    solve(i + 1)
 
                 temp.pop()
 
