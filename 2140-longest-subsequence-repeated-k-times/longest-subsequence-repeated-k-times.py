@@ -1,78 +1,113 @@
 class Solution:
     def longestSubsequenceRepeatedK(self, s: str, k: int) -> str:
-        ans=[]
-        temp=[]
-        p=len(s)
-        x=p//k
-        set1={}
-        for i in s:
-            if i in set1:
-                set1[i]+=1
-            else:
-                set1[i]=1
-        for ch,val in set1.items():
-            if val>=k:
-                d=ch*(val//k)
-                temp.append(d)
-        key="".join(temp)
-        used={}
-        for m in key:
-            if m in used:
-                used[m]+=1
-            else:
-                used[m]=1
-        next_pos = [[-1] * 26 for _ in range(len(s) + 1)]
 
-        for i in range(len(s) - 1, -1, -1):
-            next_pos[i] = next_pos[i + 1].copy()
-            next_pos[i][ord(s[i]) - ord('a')] = i
+        n = len(s)
 
-        def isvalid(curr):
-            z = curr * k
+        # --------------------------------
+        # Count characters
+        # --------------------------------
+        freq = [0] * 26
+
+        for ch in s:
+            freq[ord(ch) - 97] += 1
+
+        # Only characters occurring at least k times
+        chars = []
+
+        for i in range(25, -1, -1):
+            if freq[i] >= k:
+                chars.append(i)
+
+        # Maximum possible length of answer
+        maxlen = sum(freq[i] // k for i in range(26))
+
+        # --------------------------------
+        # next occurrence table
+        # --------------------------------
+        nxt = [[n] * 26 for _ in range(n + 1)]
+
+        for i in range(n - 1, -1, -1):
+            nxt[i] = nxt[i + 1].copy()
+            nxt[i][ord(s[i]) - 97] = i
+
+        # --------------------------------
+        # Check whether curr repeated k times
+        # is a subsequence
+        # --------------------------------
+        def valid(curr):
+
             pos = 0
 
-            for ch in z:
-                if pos >= len(s):
-                    return False
+            for _ in range(k):
+                for ch in curr:
 
-                pos = next_pos[pos][ord(ch) - ord('a')]
+                    p = nxt[pos][ch]
 
-                if pos == -1:
-                    return False
+                    if p == n:
+                        return False
 
-                pos += 1
+                    pos = p + 1
 
             return True
-        new=[]
-        
-        def found(key):
-            nonlocal new
-            nonlocal used
-            nonlocal x
-            nonlocal ans
-            if len(new)>x:
-                return
-            
-            if len(new) > 0 and len(new) >= len(ans):
-                if isvalid(new):
-                    if len(new) > len(ans) or (len(new) == len(ans) and new > ans):
-                        ans = new.copy()
-            chars = list(used.keys())
+
+        # --------------------------------
+        # DFS
+        # --------------------------------
+        curr = []
+
+        def dfs():
+
+            # Current prefix itself is a valid answer
+            # because we only enter DFS with valid prefixes.
+            if len(curr) == maxlen:
+                return True
+
             for ch in chars:
-                if used[ch]==0:
+
+                # Don't exceed available copies
+                if curr.count(ch) >= freq[ch] // k:
                     continue
-                new.append(ch)
-                used[ch]-=1
-                
-                found(key)
-                used[ch]+=1
-                new.pop()
-            
-        found(key)
-        
-        return "".join(ans)
 
+                curr.append(ch)
 
+                # IMPORTANT:
+                # prune immediately
+                if valid(curr):
+                    if dfs():
+                        return True
 
+                curr.pop()
 
+            return False
 
+        # --------------------------------
+        # Try every possible length
+        # --------------------------------
+        for length in range(maxlen, 0, -1):
+
+            curr.clear()
+
+            def search():
+
+                if len(curr) == length:
+                    return True
+
+                for ch in chars:
+
+                    if curr.count(ch) >= freq[ch] // k:
+                        continue
+
+                    curr.append(ch)
+
+                    if valid(curr):
+                        if search():
+                            return True
+
+                    curr.pop()
+
+                return False
+
+            if search():
+                return "".join(chr(c + 97) for c in curr)
+
+        return ""
