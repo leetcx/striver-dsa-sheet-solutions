@@ -7,10 +7,12 @@ class Solution:
         def maxi(s):
             nonlocal ans
             nonlocal maxlen
-
+            if len(temp) + len(s) <= maxlen:
+                return
             if len(s) == 0:
                 if len(temp) > maxlen:
                     ans = len(temp)
+                    
                     maxlen = len(temp)
                 return
 
