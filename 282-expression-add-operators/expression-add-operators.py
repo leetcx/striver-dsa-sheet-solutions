@@ -73,11 +73,8 @@ class Solution:
                     temp.append("*")
                     create(left)
                     temp.pop()
-
                 else:
-                    # We consumed all digits
-                    if isvalid(temp) == target:
-                        ans.append("".join(temp))
+                    create(left)
 
                 # Remove the number
                 temp.pop()
