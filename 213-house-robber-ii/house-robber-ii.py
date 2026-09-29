@@ -1,29 +1,36 @@
 class Solution:
     def rob(self, nums: list[int]) -> int:
+        n = len(nums) 
 
-        def cal(start, end):
-            memo = {}
+        memo = [0] * (n + 1)
 
-            def solve(i):
-                if i > end:
-                    return 0
+        # Case 1: take nums[0], so we cannot take nums[n-1]
+        memo[0] = 0
+        memo[1] = nums[0]
 
-                if i in memo:
-                    return memo[i]
+        for i in range(2, n):
+            if i-1>=0:
+                
+                take = nums[i - 1] + memo[i - 2]
+            skip = memo[i - 1]
+            memo[i] = max(take, skip)
 
-                take = nums[i] + solve(i + 2)
-                skip = solve(i + 1)
+        result1 = memo[n - 1]
 
-                memo[i] = max(take, skip)
+        # Case 2: skip nums[0], so nums[1] can be considered
+        memo = [0] * (n + 1)
+        memo[0] = 0
+        memo[1] = 0
 
-                return memo[i]
+        for i in range(2, n + 1):
+            if i-1>=0:
+                
+                take = nums[i - 1] + memo[i - 2]
+            skip = memo[i - 1]
+            memo[i] = max(take, skip)
 
-            return solve(start)
-
-        if len(nums) == 1:
+        result2 = memo[n]
+        if len(nums)==1:
             return nums[0]
 
-        return max(
-            cal(0, len(nums) - 2),
-            cal(1, len(nums) - 1)
-        )
+        return max(result1, result2)
