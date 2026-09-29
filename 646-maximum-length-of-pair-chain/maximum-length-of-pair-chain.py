@@ -1,5 +1,6 @@
 class Solution:
     def findLongestChain(self, nums: list[list[int]]) -> int:
+        nums.sort()
         z=len(nums)
         count=0
         maxlength=float('-inf')
