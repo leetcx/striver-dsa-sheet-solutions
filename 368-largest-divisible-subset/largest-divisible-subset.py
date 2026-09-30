@@ -1,30 +1,33 @@
-
-
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+
         nums.sort()
         n = len(nums)
 
-        length = [1] * n      # length[i] = size of subset ending at i
-        prev = [-1] * n       # previous index in the subset
+        dp = [[None] * (n + 1) for _ in range(n)]
 
-        last = 0              # index where largest subset ends
+        def cal(i, prev):
 
-        for i in range(n):
-            for j in range(i):
-                if nums[i] % nums[j] == 0:
-                    if length[j] + 1 > length[i]:
-                        length[i] = length[j] + 1
-                        prev[i] = j
+            if i >= n:
+                return []
 
-            if length[i] > length[last]:
-                last = i
+            if dp[i][prev] is not None:
+                return dp[i][prev]
 
-        ans = []
+            take = []
 
-        while last != -1:
-            ans.append(nums[last])
-            last = prev[last]
+            if prev == -1 or nums[i] % nums[prev] == 0:
+                take = [i] + cal(i + 1, i)
 
-        ans.reverse()
-        return ans
+            skip = cal(i + 1, prev)
+
+            if len(take) > len(skip):
+                dp[i][prev] = take
+            else:
+                dp[i][prev] = skip
+
+            return dp[i][prev]
+
+        indices = cal(0, -1)
+
+        return [nums[i] for i in indices]
