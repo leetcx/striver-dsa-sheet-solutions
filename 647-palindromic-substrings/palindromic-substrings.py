@@ -1,29 +1,20 @@
 class Solution:
     def countSubstrings(self, s: str) -> int:
-
-        n = len(s)
-        dp = [[-1] * n for _ in range(n)]
-
-        def palin(i, j):
-
-            if i >= j:
-                return True
-
-            if dp[i][j] != -1:
-                return dp[i][j]
-
-            if s[i] != s[j]:
-                dp[i][j] = False
-            else:
-                dp[i][j] = palin(i + 1, j - 1)
-
-            return dp[i][j]
-
-        ans = 0
-
-        for i in range(n):
-            for j in range(i, n):
-                if palin(i, j):
-                    ans += 1
-
-        return ans
+        n=len(s)
+        t=[[False] * (n+1) for _ in range(n+1)]
+        count=0
+        for l in range(1,n+1):
+            for i in range(n-l+1):
+                j=i+l-1
+                if i==j:
+                    t[i][j]=True
+                elif i+1==j:
+                    if s[i]==s[j]:
+                        t[i][j]=True
+                else:
+                    if s[i]==s[j]:
+                        t[i][j]=t[i+1][j-1]
+                if t[i][j]==True:
+                    count+=1
+        return count
+                
