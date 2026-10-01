@@ -2,25 +2,30 @@ class Solution:
     def uniquePathsWithObstacles(self, grid: list[list[int]]) -> int:
         m=len(grid)
         n=len(grid[0])
-        dp=[[-1] * (n+1) for _ in range(m+1)]
-        def lesdo(i,j):
-            if i>=m or i <0 or j>=n or j<0 or grid[i][j]==1 or grid[i][j]=="#":
-                return 0
-            if i==m-1 and j==n-1:
-                return 1
-            if dp[i][j]!= -1:
-                return dp[i][j]
-            original=grid[i][j]
-            grid[i][j]="#"
-            right=lesdo(i,j+1)
-            
-            grid[i][j]="#"
-            down=lesdo(i+1,j)
-            grid[i][j]=original
-            dp[i][j]= right+down
-            return dp[i][j]
-            
-        return lesdo(0,0)
-
+        dp=[[0] * (n) for _ in range(m)]
+        
+        for z in range(m):
+            if grid[z][0]==1:
+                dp[z][0]=0
+            elif z>0 and dp[z-1][0]==0:
+                dp[z][0]=0
+            else:
+                dp[z][0]=1
+        for z in range(n):
+            if grid[0][z]==1:
+                dp[0][z]=0
+            elif z>0 and dp[0][z-1]==0:
+                dp[0][z]=0
+            else:
+                dp[0][z]=1
+        
+        for i in range(1,m):
+            for j in range(1,n):
+                if grid[i][j]==1:
+                    dp[i][j]=0
+                    continue
+                dp[i][j]=dp[i][j-1]+dp[i-1][j]
+        return dp[m-1][n-1]
+        
 
 
