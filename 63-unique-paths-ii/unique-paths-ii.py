@@ -13,6 +13,8 @@ class Solution:
             original=grid[i][j]
             grid[i][j]="#"
             right=lesdo(i,j+1)
+            grid[i][j]=original
+            grid[i][j]="#"
             down=lesdo(i+1,j)
             grid[i][j]=original
             dp[i][j]= right+down
