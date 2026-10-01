@@ -1,6 +1,6 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        ans=""
+        ans=[]
         n=len(s)
         maxlen=float('-inf')
         t=[[False] * (n+1) for _ in range(n+1)]
@@ -17,9 +17,10 @@ class Solution:
                         t[i][j]=t[i+1][j-1]
                 if t[i][j]==True:
                     if j-i+1>maxlen:
-                        ans= s[i:j+1]
+                        ans= [s[i:j+1]]
                         maxlen=j-i+1
-        return ans
+        z="".join(ans)
+        return z
         
         
            
