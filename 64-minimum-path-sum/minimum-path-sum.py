@@ -2,17 +2,19 @@ class Solution:
     def minPathSum(self, grid: list[list[int]]) -> int:
         m=len(grid)
         n=len(grid[0])
-        memo = [[-1] * n for _ in range(m)]
-        def minpath(grid,row,col):
-            if row==m-1 and col==n-1:
-                return grid[row][col] 
-            if row>=m or col>=n:
-                return float("+inf")
-            if memo[row][col] != -1:
-                return memo[row][col]
-            right=minpath(grid,row,col+1)
-            left=minpath(grid,row+1,col)
-            memo[row][col]=grid[row][col]+min(left,right)
-            return memo[row][col]
-        return minpath(grid,0,0)
-        
+        dp=[[-1]*(n+1) for _ in range(m+1)]
+        def cal(i,j):
+            if i>=m or i<0 or j<0 or j>=n or grid[i][j]=="#":
+                return float('inf')
+            if i==m-1 and j==n-1:
+                return grid[m-1][n-1]
+            if dp[i][j] != -1:
+                return dp[i][j]
+            original=grid[i][j]
+            grid[i][j]="#"
+            right=cal(i,j+1)
+            down=cal(i+1,j)
+            grid[i][j]=original
+            dp[i][j]=grid[i][j] + min(right,down)
+            return dp[i][j]
+        return cal(0,0)
