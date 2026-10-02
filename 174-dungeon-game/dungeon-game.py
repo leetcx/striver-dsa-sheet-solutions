@@ -3,58 +3,25 @@ class Solution:
 
         m = len(grid)
         n = len(grid[0])
+        dp=[[None] * (n+1) for _ in range(m+1)]
 
-        low = 1
-        high = 0
-
-        for i in range(m):
-            for j in range(n):
-                high += abs(grid[i][j])
-
-        high += 1
-
-        while low < high:
-
-            mid = (low + high) // 2
-
-            dp = [[-1] * n for _ in range(m)]
-
-            start = mid + grid[0][0]
-
-            if start <= 0:
-                possible = False
+        def solve(i,j,grid):
+            if i>=m or j>=n:
+                return float('inf')
+            if i==m-1 and j==n-1:
+                if grid[i][j]>0:
+                    return 1
+                else:
+                    return abs(grid[i][j]) +1
+            if dp[i][j] != None:
+                return dp[i][j]
+            right=solve(i,j+1,grid)
+            down=solve(i+1,j,grid)
+            result=min(right,down) - grid[i][j]
+            if result<1:
+                dp[i][j]= 1
+                return 1
             else:
-                dp[0][0] = start
-
-                for i in range(m):
-                    for j in range(n):
-
-                        if dp[i][j] <= 0:
-                            continue
-
-                        if i + 1 < m:
-                            health = dp[i][j] + grid[i + 1][j]
-
-                            if health > 0:
-                                dp[i + 1][j] = max(
-                                    dp[i + 1][j],
-                                    health
-                                )
-
-                        if j + 1 < n:
-                            health = dp[i][j] + grid[i][j + 1]
-
-                            if health > 0:
-                                dp[i][j + 1] = max(
-                                    dp[i][j + 1],
-                                    health
-                                )
-
-                possible = dp[m - 1][n - 1] > 0
-
-            if possible:
-                high = mid
-            else:
-                low = mid + 1
-
-        return low
+                dp[i][j]= result
+                return dp[i][j]
+        return solve(0,0,grid)
