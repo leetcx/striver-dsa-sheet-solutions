@@ -1,23 +1,25 @@
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
-        ans=0
-        maxlen=0
-        temp=[]
-        w=len(s)
-        dp=[[None]* (w+1) for _ in range(w+1)]
-        def palin(s,i,j):
-            if dp[i][j] != None:
-                return dp[i][j]
-            if i>j:
-                return 0
-            if i==j:
-                return 1
-            if s[i]==s[j]:
-                return 2+ palin(s,i+1,j-1)
-            else:
-                a=palin(s,i+1,j)
-                b=palin(s,i,j-1)
-            dp[i][j]=max(a,b)
-            return max(a,b)
-        return palin(s,0,len(s)-1)
-            
+        ans=[]
+        n=len(s)
+        maxlen=float('-inf')
+        t=[[1] * (n+1) for _ in range(n+1)]
+        for l in range(1,n+1):
+            for i in range(n-l+1):
+                j=i+l-1
+                if i==j:
+                    t[i][j]=1
+                elif i+1==j:
+                    if s[i]==s[j]:
+                        t[i][j]=2
+                else:
+                    if s[i]==s[j]:
+                        t[i][j]=2+ t[i+1][j-1]
+                    else:
+                        t[i][j]=max(t[i+1][j],t[i][j-1])
+
+        return t[0][n-1]
+        
+        
+           
+        
