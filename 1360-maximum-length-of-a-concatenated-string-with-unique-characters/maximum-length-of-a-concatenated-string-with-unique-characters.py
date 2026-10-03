@@ -21,7 +21,7 @@ class Solution:
             state=(i,tuple(temp))
             if state in memo:
                 return memo[state]
-            oldtemp=temp
+            oldtemp=temp.copy()
             take=0
             if  hasduplicate(temp,arr[i]):
                 temp.append(arr[i])
