@@ -12,12 +12,15 @@ class Solution:
             return True
                 
                     
-        
+        memo={}
         def check(i,temp):
           
             if i >= len(arr):
                
                 return 0
+            state=(i,tuple(temp))
+            if state in memo:
+                return memo[state]
             oldtemp=temp
             take=0
             if  hasduplicate(temp,arr[i]):
@@ -25,7 +28,8 @@ class Solution:
                 take=len(arr[i]) + check(i+1,temp)
                 temp.pop()
             skip=check(i+1,oldtemp)
-            return max(take,skip)
+            memo[state]=max(take,skip)
+            return memo[state]
         return check(0,[])
         
 
