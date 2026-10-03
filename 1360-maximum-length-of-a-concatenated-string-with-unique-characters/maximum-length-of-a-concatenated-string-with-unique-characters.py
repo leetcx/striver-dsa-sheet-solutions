@@ -1,37 +1,32 @@
 class Solution:
     def maxLength(self, arr: list[str]) -> int:
-        temp=[]
-        def isunique(p):
-            if p=="":
-                return 0
-           
+        def hasduplicate(temp,s2):
             dict1={}
-            for i in p:
-                if i in dict1:
-                    return False
+            s1="".join(temp)
+            for i in s1:
                 dict1[i]=1
+            for j in s2:
+                if j in dict1:
+                    return False
+                dict1[j]=1
             return True
                 
                     
-        maxlen=float('-inf')
-        ans=0
-        def check(i):
-            nonlocal ans
-            nonlocal temp
-            nonlocal maxlen
+        
+        def check(i,temp):
+          
             if i >= len(arr):
-                p="".join(temp)
-                if  isunique(p):
-                    if len(p)> maxlen:
-                        ans=len(p)
-                        maxlen=len(p)
-                return
-            temp.append(arr[i])
-            check(i+1)
-            temp.pop()
-            check(i+1)
-        check(0)
-        return ans
+               
+                return 0
+            oldtemp=temp
+            take=0
+            if  hasduplicate(temp,arr[i]):
+                temp.append(arr[i])
+                take=len(arr[i]) + check(i+1,temp)
+                temp.pop()
+            skip=check(i+1,oldtemp)
+            return max(take,skip)
+        return check(0,[])
         
 
             
