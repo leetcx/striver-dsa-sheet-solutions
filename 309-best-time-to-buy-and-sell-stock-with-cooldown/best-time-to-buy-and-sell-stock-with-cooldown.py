@@ -1,23 +1,25 @@
 class Solution:
     def maxProfit(self, prices: list[int]) -> int:
-        dp=[[-99] * (len(prices)+1) for _ in range(len(prices)+1) ]
-        def maxprofit(i,prev):
-            if i >=len(prices):
-                return 0
-            
-            if dp[i][prev] != -99:
-                return dp[i][prev]
-            
-            buy=float('-inf')
-            notbuy=float('-inf')
-            sell=float('-inf')
-            notsell=float('-inf')
-            if prev==-1 :
-                buy=maxprofit(i+1,i)-prices[i]
-                notbuy=maxprofit(i+1,prev)
-            else:
-                sell=prices[i]+maxprofit(i+2,-1)
-                notsell=maxprofit(i+1,prev)
-            dp[i][prev]= max(buy,notbuy,sell,notsell)
-            return dp[i][prev]
-        return maxprofit(0,-1)
+        n = len(prices)
+
+        if n <= 1:
+            return 0
+
+        dp = [0] * n
+
+        dp[0] = 0
+        dp[1] = max(prices[1] - prices[0], 0)
+
+        for i in range(2, n):
+            dp[i] = dp[i - 1]
+
+            for j in range(i):
+                profittod = prices[i] - prices[j]
+
+                prev = 0
+                if j - 2 >= 0:
+                    prev = dp[j - 2]
+
+                dp[i] = max(dp[i], profittod + prev)
+
+        return dp[n - 1]
