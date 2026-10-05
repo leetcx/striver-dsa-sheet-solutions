@@ -5,7 +5,7 @@ class Solution:
         
         a=1
         b=2
-        c=3
+        
         for i in range(3,n+1):
            c=a+b
            temp=b
