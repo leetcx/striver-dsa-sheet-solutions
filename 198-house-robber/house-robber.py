@@ -1,17 +1,14 @@
 class Solution:
     def rob(self, nums: list[int]) -> int:
-        dp=[-1] * (len(nums)+1)
-        for i in range(len(nums)+1):
-            if i==0:
-                dp[i]=0
-                continue
-            if i==1:
-                dp[i]=nums[0] 
-                continue   
+        a=nums[0]
+        b=0
+        for i in range(1,len(nums)):
+            take=nums[i]+b
+            skip=a
+            curr=max(take,skip)
 
             
-            take=nums[i-1]+ dp[i-2]
-            skip=dp[i-1]
-            dp[i]= max(take,skip)
+            b=a
+            a=curr    
             
-        return dp[len(nums)]
+        return a
