@@ -1,37 +1,22 @@
 class Solution {
 public:
-    vector<int> dp;
-    vector<int> nums;
-
-    bool check(int i) {
-
-        if (i >= nums.size() - 1)
+    bool canJump(vector<int>& nums) {
+        if (nums.size() == 1)
             return true;
 
-        if (nums[i] == 0)
-            return false;
+        vector<int> dp(nums.size(), 0);
+        dp[0] = 1;
 
-        if (dp[i] != -1)
-            return dp[i];
+        for (int i = 0; i < nums.size(); i++) {
 
-        for (int j = i + 1; j <= i + nums[i] && j < nums.size(); j++) {
+            if (dp[i] == 0)
+                continue;
 
-            bool take = check(j);
-
-            if (take) {
-                dp[i] = 1;
-                return true;
+            for (int j = i + 1; j < min((int)nums.size(), i + nums[i] + 1); j++) {
+                dp[j] = 1;
             }
         }
 
-        dp[i] = 0;
-        return false;
-    }
-
-    bool canJump(vector<int>& nums) {
-        this->nums = nums;
-        dp = vector<int>(nums.size(), -1);
-
-        return check(0);
+        return dp[nums.size() - 1] == 1;
     }
 };
