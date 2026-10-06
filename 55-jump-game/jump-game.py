@@ -1,27 +1,14 @@
-from functools import cache
-
 class Solution:
     def canJump(self, nums: list[int]) -> bool:
-        n = len(nums)
+        max_reach = 0
 
-        @cache  # Automatically handles memoization much faster than list lookups
-        def solve(idx: int) -> bool:
-            if idx >= n - 1:
-                # Reached or overshot the last index
-                return True
-            
-            # Extract max jump from current position
-            max_jump = nums[idx]
-            
-            # Optimization: If max jump reaches or exceeds the end, stop immediately
-            if idx + max_jump >= n - 1:
-                return True
-                
-            # Check jump paths from largest to smallest (Greedy heuristic optimization)
-            for i in range(max_jump, 0, -1):
-                if solve(idx + i):
-                    return True
-                    
-            return False
+        for i in range(len(nums)):
+            if i > max_reach:
+                return False
 
-        return solve(0)
+            max_reach = max(max_reach, i + nums[i])
+
+            if max_reach >= len(nums) - 1:
+                return True
+
+        return True
