@@ -4,27 +4,30 @@ class Solution:
         p = len(target)
         MOD = 10**9 + 7
 
-        dp = [[0] * (p + 1) for _ in range(z + 1)]
-        dp[z][p] = 1
-
-        # count[i][c] = how many words have character c at column i
         count = [[0] * 26 for _ in range(z)]
 
         for i in range(z):
             for word in words:
                 count[i][ord(word[i]) - ord('a')] += 1
 
-        for i in range(z - 1, -1, -1):
-            for j in range(p, -1, -1):
+        dp = {}
 
-                if j == len(target):
-                    dp[i][j] = 1
-                    continue
+        def check(i, j):
+            if j == p:
+                return 1
 
-                skip = dp[i + 1][j]
+            if i >= z:
+                return 0
 
-                take = count[i][ord(target[j]) - ord('a')] * dp[i + 1][j + 1]
+            state = (i, j)
+            if state in dp:
+                return dp[state]
 
-                dp[i][j] = (take + skip) % MOD
+            skip = check(i + 1, j)
 
-        return dp[0][0]
+            take = count[i][ord(target[j]) - ord('a')] * check(i + 1, j + 1)
+
+            dp[state] = (skip + take) % MOD
+            return dp[state]
+
+        return check(0, 0)
