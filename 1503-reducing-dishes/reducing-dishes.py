@@ -1,21 +1,19 @@
 class Solution:
     def maxSatisfaction(self, satisfaction: list[int]) -> int:
         satisfaction.sort()
-        dp={}
-        def maxprofit(i,j):
-            if i>=len(satisfaction):
-                return 0
-            state=(i,j)
-            if state in dp:
-                return dp[state]
+        n = len(satisfaction)
+        dp = [[0] * 502 for _ in range(501)]
+        for i in range(n-1,-1,-1):
+            for j in range(n,0,-1):
+                
             
             
                 
-            take=(satisfaction[i]*j)+maxprofit(i+1,j+1)
+                take=(satisfaction[i]*j)+dp[i+1][j+1]
                 
-            skip=maxprofit(i+1,j)
-            dp[state]= max(take,skip)
-            return dp[state]
-        return maxprofit(0,1)
+                skip=dp[i+1][j]
+                dp[i][j]= max(take,skip)
+            
+        return dp[0][1]
 
             
