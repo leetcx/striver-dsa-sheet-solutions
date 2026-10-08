@@ -13,7 +13,7 @@ class Solution:
                 return 0
 
             
-            state=(l,tuple(used))
+            state=(tuple(used))
             if state in dp:
                 return dp[state]
             res=float('-inf')
