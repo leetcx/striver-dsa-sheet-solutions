@@ -5,13 +5,22 @@ class Solution:
         ans=[] 
 
         for i in range(len(obstacles)):
-            pos = bisect_right(arr, obstacles[i])
-            if pos==len(arr):
+            target=obstacles[i]
+            low=0
+            high=len(arr)-1
+            while low<=high:
+                mid=(low+high)//2
+                if arr[mid]>target:
+                    high=mid-1
+                else:
+                    low=mid+1
+                
+            if low==len(arr):
                 arr.append(obstacles[i])
                
             else:
-                arr[pos]=obstacles[i]
-            ans.append(pos+1)
+                arr[low]=obstacles[i]
+            ans.append(low+1)
         return ans
 
 
