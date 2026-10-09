@@ -21,7 +21,7 @@ class Solution:
                 take3=count(i,j+1)
             if j-1>=0 and grid[i][j]<grid[i][j-1]:
                 take4=count(i,j-1)
-            dp[state]= 1+take1+take2+take3+take4
+            dp[state]= (1+take1+take2+take3+take4) % (10**9 + 7)
             return dp[state]
         ans=0
         for i in range(n):
