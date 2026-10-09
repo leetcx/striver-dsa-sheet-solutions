@@ -13,7 +13,7 @@ class Solution:
             for x in range(1,min(3,z-i)+1):
                 stone+=stoneValue[i+x-1]
                 
-                result=max(result,stone-check(0,i+x))
+                result=max(result,stone-check(1,i+x))
             dp[state]= result
             return dp[state]
             
