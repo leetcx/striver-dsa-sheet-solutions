@@ -1,26 +1,19 @@
 class Solution:
     def findNumberOfLIS(self, nums: list[int]) -> int:
-        n = len(nums)
-        set1 = {i: 1 for i in range(n)}
-        ways = {i: 1 for i in range(n)}
-
-        for i in range(n):
+        dp = {i: [1, 1] for i in range(len(nums))}
+        for i in range(len(nums)):
             for j in range(i):
-                if nums[j] < nums[i]:
-                    z = set1[j] + 1
+                if nums[i]>nums[j]:
+                    z=dp[j][0]+1
+                    if z>dp[i][0]:
+                        dp[i][0]=z
+                        dp[i][1]=dp[j][1]
+                    elif z==dp[i][0]:
+                        dp[i][1]+=dp[j][1]
+        longest = max(dp[i][0] for i in range(len(nums)))
+        ans=0
+        for i in range(len(nums)):
+            if dp[i][0]==longest:
+                ans+=dp[i][1]
+        return ans
 
-                    if z > set1[i]:
-                        set1[i] = z
-                        ways[i] = ways[j]
-
-                    elif z == set1[i]:
-                        ways[i] += ways[j]
-
-        longest = max(set1.values())
-        res = 0
-
-        for i in range(n):
-            if set1[i] == longest:
-                res += ways[i]
-
-        return res
