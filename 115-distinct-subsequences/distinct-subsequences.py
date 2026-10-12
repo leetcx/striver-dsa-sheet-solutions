@@ -9,7 +9,8 @@ class Solution:
             state=(i,j)
             if state in dp:
                 return dp[state]
-            count=0
+            take=0
+            take2=0
             if s[i] != t[j]:
                 dp[state]= do(i+1,j)
                 return dp[state]
@@ -17,9 +18,9 @@ class Solution:
            
             else:
                 
-                count+=do(i+1,j+1)
-                count+=do(i+1,j)
-                dp[state]= count
+                take+=do(i+1,j+1)
+                take2+=do(i+1,j)
+                dp[state]= take+take2
                 return dp[state]
         return do(0,0)
         
