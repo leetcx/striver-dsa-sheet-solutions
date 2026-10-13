@@ -1,43 +1,37 @@
 class Solution:
     def validPartition(self, nums: list[int]) -> bool:
-        def valid(substr1):
-            if len(substr1) < 2 or len(substr1) > 3:
+        dp = {}
+
+        def valid(left):
+            if len(left) < 2 or len(left) > 3:
                 return False
 
-            count = 1
-            for i in range(1, len(substr1)):
-                if substr1[i] == substr1[i-1]:
-                    count += 1
+            take = len(left) == 2 and left[0] == left[1]
 
-            take = count == len(substr1)
+            if len(left) == 3:
+                if left[0] == left[1] == left[2]:
+                    take = True
+                elif left[0] + 1 == left[1] and left[1] + 1 == left[2]:
+                    take = True
 
-            nottake = len(substr1) == 3
-            for j in range(1, len(substr1)):
-                diff = substr1[j] - substr1[j-1]
-                if diff != 1:
-                    nottake = False
-                    break
+            return take
 
-            return take or nottake
-
-        def validof(substr2):
-            return valid(substr2)
-        dp={}
-        def check(i, substr1, substr2):
+        def check(i):
             if i == len(nums):
                 return True
-            state=(i,tuple(substr1),tuple(substr2))
-            if state in dp:
-                return dp[state]
-            for j in range(i, min(i+3, len(nums))):
-                left = nums[i:j+1]
+
+            if i in dp:
+                return dp[i]
+
+            for j in range(i, min(i + 3, len(nums))):
+                left = nums[i:j + 1]
 
                 if valid(left):
-                    if check(j+1, [], []):
-                        dp[state]= True
+                    if check(j + 1):
+                        dp[i] = True
                         return True
 
-            dp[state] =False
+            dp[i] = False
             return False
 
-        return check(0, [], [])
+        return check(0)
