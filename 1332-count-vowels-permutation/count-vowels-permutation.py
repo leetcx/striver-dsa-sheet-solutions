@@ -1,19 +1,16 @@
-
 class Solution:
     def countVowelPermutation(self, n: int) -> int:
-        vowels = ["a", "e", "i", "o", "u"]
-        dp = {}
-
-        def count(n, prev):
-            if n == 0:
+        vowels=["a","e","i","o","u"]
+        dp={}
+        def count(n,prev):
+            if n==0:
                 return 1
-
-            state = (n, prev)
+            
+            state=(n,prev)
             if state in dp:
                 return dp[state]
-
-            take = 0
-
+            skip=0
+            take=0
             for i in range(len(vowels)):
                 if prev == "#":
                     take += count(n - 1, vowels[i])
@@ -27,8 +24,9 @@ class Solution:
                     take += count(n - 1, vowels[i])
                 elif vowels[i] == "u" and prev == "a":
                     take += count(n - 1, vowels[i])
+           
 
-            dp[state] = take % (10**9 + 7)
-            return dp[state]
-
-        return count(n, "#")
+            dp[state]= take
+            return dp[state] % ((10**9)+7)
+        return count(n,"#") % ((10**9)+7)
+            
