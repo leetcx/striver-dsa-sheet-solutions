@@ -1,22 +1,21 @@
 class Solution:
     def change(self, amount: int, coins: list[int]) -> int:
-        memo = [[-1] * (amount + 1) for _ in range(len(coins))]
-        def target(i,cal):
-            nonlocal memo
-            if cal>amount:
-                return 0
-            if i>=len(coins):
-                return 0
-            
-            if cal==amount:
+        dp={}
+        def ways(i,amount):
+            if amount==0:
                 return 1
-            if memo[i][cal] != -1:
-                return memo[i][cal]
-            take=target(i,cal+coins[i])
-            skip=target(i+1,cal)
-            memo[i][cal]=take+skip
-            return memo[i][cal]
-        return target(0,0)
-        
+            if i>=len(coins) or amount<0:
+                return 0
+            state=(i,amount)
+            if state in dp:
+                return dp[state]
+            take=0
+            skip=0
+            if amount>=coins[i]:
+                take+=ways(i,amount-coins[i])
+            skip+=ways(i+1,amount)
+            dp[state]= take+skip
+            return dp[state]
+        return ways(0,amount)
 
-            
+
