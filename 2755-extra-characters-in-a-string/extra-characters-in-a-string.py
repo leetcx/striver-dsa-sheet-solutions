@@ -7,7 +7,7 @@ class Solution:
                 return 0
 
             if j >= len(dictionary):
-                return 1 + check(i + 1, 0)
+                return float('inf')
 
             state = (i, j)
             if state in dp:
@@ -20,9 +20,10 @@ class Solution:
             else:
                 take = float('inf')
 
-            skip = check(i, j + 1)
+            skip = 1 + check(i + 1, 0)
+            next_word = check(i, j + 1)
 
-            dp[state] = min(take, skip)
+            dp[state] = min(take, skip, next_word)
             return dp[state]
 
         return check(0, 0)
