@@ -1,23 +1,20 @@
 class Solution:
     def numDecodings(self, s: str) -> int:
+        if s[0]=="0":
+            return 0
         dp={}
-        def count(i):
-
+        def partition(i):
             if i>=len(s):
                 return 1
-            if s[i]=="0":
-                return 0
-            state=(i)
+            state=i
             if state in dp:
                 return dp[state]
-            nums=0
             take=0
-            for j in range(i,len(s)):
-                nums=nums*10+int(s[j])
-                if nums>26:
-                    break
-                take+=count(j+1)
+            for j in range(i,min((i+2),len(s))):
+                parti=s[i:j+1]
+                if parti[0] != "0" and len(parti) <=2 and int(parti)>0 and int(parti)<=26:
+                    take+=partition(j+1)
             dp[state]= take
             return take
-        return count(0)
-        
+        return partition(0)
+                
