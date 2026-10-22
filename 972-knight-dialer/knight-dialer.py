@@ -1,52 +1,32 @@
 class Solution:
     def knightDialer(self, n: int) -> int:
-        p = [[0] * 3 for _ in range(4)]
-        c = 1
-        for i in range(4):
-            for j in range(3):
-                if i == 3 and j == 0:
-                    p[i][j] = "*"
-                    continue
-                if i == 3 and j == 2:
-                    p[i][j] = "#"
-                    continue
-                if i == 3 and j == 1:
-                    p[i][j] = 0
-                    continue
-                p[i][j] = c
-                c += 1
+        adj = {
+            0: [4, 6],
+            1: [6, 8],
+            2: [7, 9],
+            3: [4, 8],
+            4: [0, 3, 9],
+            5: [],
+            6: [0, 1, 7],
+            7: [2, 6],
+            8: [1, 3],
+            9: [2, 4]
+        }
 
         mod = 10**9 + 7
-        dp = [[[0] * n for _ in range(3)] for _ in range(4)]
+        dp = [[0] * 10 for _ in range(n)]
 
-        for i in range(4):
-            for j in range(3):
-                if p[i][j] == "*" or p[i][j] == "#":
-                    continue
-                dp[i][j][0] = 1
+        for i in range(10):
+            dp[0][i] = 1
 
-        for k in range(1, n):
-            for i in range(4):
-                for j in range(3):
-                    if p[i][j] == "*" or p[i][j] == "#":
-                        continue
-
-                    dp[i][j][k] = (
-                        (dp[i-2][j-1][k-1] if i-2 >= 0 and j-1 >= 0 else 0) +
-                        (dp[i-2][j+1][k-1] if i-2 >= 0 and j+1 < 3 else 0) +
-                        (dp[i-1][j-2][k-1] if i-1 >= 0 and j-2 >= 0 else 0) +
-                        (dp[i-1][j+2][k-1] if i-1 >= 0 and j+2 < 3 else 0) +
-                        (dp[i+1][j-2][k-1] if i+1 < 4 and j-2 >= 0 else 0) +
-                        (dp[i+1][j+2][k-1] if i+1 < 4 and j+2 < 3 else 0) +
-                        (dp[i+2][j-1][k-1] if i+2 < 4 and j-1 >= 0 else 0) +
-                        (dp[i+2][j+1][k-1] if i+2 < 4 and j+1 < 3 else 0)
-                    ) % mod
+        for i in range(1, n):
+            for j in range(10):
+                for k in adj[j]:
+                    dp[i][j] = (dp[i][j] + dp[i-1][k]) % mod
 
         ans = 0
-        for i in range(4):
-            for j in range(3):
-                if p[i][j] == "*" or p[i][j] == "#":
-                    continue
-                ans += dp[i][j][n-1]
+        for i in range(10):
+            ans = (ans + dp[n-1][i]) % mod
 
-        return ans % mod
+        return ans
+        
