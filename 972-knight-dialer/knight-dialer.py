@@ -1,40 +1,52 @@
-
 class Solution:
     def knightDialer(self, n: int) -> int:
-        dialpad = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [-1, 0, -1]]
-        rows = len(dialpad)
-        cols = len(dialpad[0])
-        dp = {}
+        p = [[0] * 3 for _ in range(4)]
+        c = 1
+        for i in range(4):
+            for j in range(3):
+                if i == 3 and j == 0:
+                    p[i][j] = "*"
+                    continue
+                if i == 3 and j == 2:
+                    p[i][j] = "#"
+                    continue
+                if i == 3 and j == 1:
+                    p[i][j] = 0
+                    continue
+                p[i][j] = c
+                c += 1
 
-        def doit(i, j, remaining):
-            if i < 0 or i >= rows or j < 0 or j >= cols:
-                return 0
-            if dialpad[i][j] == -1:
-                return 0
-            if remaining == 1:
-                return 1
+        mod = 10**9 + 7
+        dp = [[[0] * n for _ in range(3)] for _ in range(4)]
 
-            state = (i, j, remaining)
-            if state in dp:
-                return dp[state]
+        for i in range(4):
+            for j in range(3):
+                if p[i][j] == "*" or p[i][j] == "#":
+                    continue
+                dp[i][j][0] = 1
 
-            moves = 0
-            moves += doit(i-1, j-2, remaining-1)
-            moves += doit(i-2, j-1, remaining-1)
-            moves += doit(i-2, j+1, remaining-1)
-            moves += doit(i-1, j+2, remaining-1)
-            moves += doit(i+1, j-2, remaining-1)
-            moves += doit(i+2, j-1, remaining-1)
-            moves += doit(i+2, j+1, remaining-1)
-            moves += doit(i+1, j+2, remaining-1)
+        for k in range(1, n):
+            for i in range(4):
+                for j in range(3):
+                    if p[i][j] == "*" or p[i][j] == "#":
+                        continue
 
-            dp[state] = moves % (10**9 + 7)
-            return dp[state]
+                    dp[i][j][k] = (
+                        (dp[i-2][j-1][k-1] if i-2 >= 0 and j-1 >= 0 else 0) +
+                        (dp[i-2][j+1][k-1] if i-2 >= 0 and j+1 < 3 else 0) +
+                        (dp[i-1][j-2][k-1] if i-1 >= 0 and j-2 >= 0 else 0) +
+                        (dp[i-1][j+2][k-1] if i-1 >= 0 and j+2 < 3 else 0) +
+                        (dp[i+1][j-2][k-1] if i+1 < 4 and j-2 >= 0 else 0) +
+                        (dp[i+1][j+2][k-1] if i+1 < 4 and j+2 < 3 else 0) +
+                        (dp[i+2][j-1][k-1] if i+2 < 4 and j-1 >= 0 else 0) +
+                        (dp[i+2][j+1][k-1] if i+2 < 4 and j+1 < 3 else 0)
+                    ) % mod
 
         ans = 0
-        for p in range(rows):
-            for q in range(cols):
-                if dialpad[p][q] != -1:
-                    ans += doit(p, q, n)
+        for i in range(4):
+            for j in range(3):
+                if p[i][j] == "*" or p[i][j] == "#":
+                    continue
+                ans += dp[i][j][n-1]
 
-        return ans % (10**9 + 7)
+        return ans % mod
