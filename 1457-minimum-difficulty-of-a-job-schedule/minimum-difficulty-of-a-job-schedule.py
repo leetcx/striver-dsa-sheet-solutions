@@ -1,30 +1,32 @@
 class Solution:
-    def minDifficulty(self, nums: list[int], d: int) -> int:
-        p = len(nums)
-
-        if d > p:
+    def minDifficulty(self, job: list[int], d: int) -> int:
+        if len(job)<d:
             return -1
+        if len(job)==d:
+            return sum(job)
+        dp={}
+        def aximum(i,d,currmax):
+            if i >= len(job):
+                if d == 0:
+                    return 0
+                return float('inf')
+            if d <= 0:
+                return float('inf')
 
-        dp = [[-1] * (d + 1) for _ in range(p + 1)]
+            
+            state=(i,d,currmax)
+            if state in dp:
+                return dp[state]
+            currmax=max(currmax,job[i])
+            continue1=aximum(i+1,d,currmax)
+            move=0
+            if d>0:
+                move=currmax+aximum(i+1,d-1,float('-inf'))
+            dp[state]= min(continue1,move)
+            return dp[state]
+        return aximum(0,d,float('-inf'))
 
-        def choose(d, idx):
-            if d == 1:
-                return max(nums[idx:])
 
-            if dp[idx][d] != -1:
-                return dp[idx][d]
 
-            maxd = float('-inf')
-            finalresult = float('inf')
-
-            for i in range(idx, len(nums) - d + 1):
-                maxd = max(maxd, nums[i])
-
-                result = maxd + choose(d - 1, i + 1)
-
-                finalresult = min(finalresult, result)
-
-            dp[idx][d] = finalresult
-            return dp[idx][d]
-
-        return choose(d, 0)
+        
+        
