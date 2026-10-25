@@ -1,24 +1,22 @@
 class Solution:
-    def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+    def findPaths(self, m: int, n: int, maxmove: int, startrow: int, startcol: int) -> int:
         dp={}
-        def calculate(i,j,maxMove):
-            if i>=m or i<0 or j>=n or j<0:
-                return 1 
-            if maxMove<=0:
+        def total(startrow,startcol,maxmove):
+            if maxmove>=0 and (startrow<0 or startrow>=m or startcol<0 or startcol>=n):
+                return 1
+            if maxmove<=0:
                 return 0
-            state=(i,j,maxMove)
+            state=(startrow,startcol,maxmove)
             if state in dp:
                 return dp[state]
-            
-            move1=0
-            move2=0
-            move3=0
-            move4=0
-            if maxMove>0:  
-                move1+=calculate(i,j-1,maxMove-1)
-                move2+=calculate(i+1,j,maxMove-1)
-                move3+=calculate(i,j+1,maxMove-1)
-                move4+=calculate(i-1,j,maxMove-1)
-            dp[state]=move1+move2+move3+move4 % ((10**9)+7)
-            return dp[state]
-        return calculate(startRow,startColumn,maxMove) % ((10**9)+7)
+            right=0
+            left=0
+            down=0
+            up=0
+            right+=total(startrow,startcol+1,maxmove-1)
+            left+=total(startrow,startcol-1,maxmove-1)
+            down+=total(startrow+1,startcol,maxmove-1)
+            up+=total(startrow-1,startcol,maxmove-1)
+            dp[state]= right+left+down+up
+            return dp[state] % ((10**9)+7)
+        return total(startrow,startcol,maxmove) % ((10**9)+7)
