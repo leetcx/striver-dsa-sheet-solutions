@@ -13,6 +13,9 @@ class Solution:
                     return True
                 dp[state]= False
                 return False
+            else:
+                dp[state]=False
+                return False
         c=0
         for i in range(len(s)):
             for j in range(i+1):
