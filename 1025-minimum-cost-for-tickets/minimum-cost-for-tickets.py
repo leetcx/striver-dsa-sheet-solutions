@@ -1,24 +1,25 @@
 class Solution:
-    def mincostTickets(self, days: list[int], costs: list[int]) -> int:
-        dp = [0] * (days[-1]+1)
-        m=len(days)
-        travel=set()
-        for i in days:
-            travel.add(i)
-        for i in range(1,(days[-1]+1)):
-            
-            if i not in travel:
-                dp[i]=dp[i-1]
-                continue
-            
+    def mincostTickets(self, days: list[int], cost: list[int]) -> int:
+        days.sort()
+        dp={}
+        def ways(i):
+            if i>days[-1]:
+                return 0
+            if i in dp:
+                return dp[i]
+            skip=float('inf')
+            if i in days:
+                take1=cost[0]+ways(i+1)
 
-               
-                
-            buy1 = costs[0] + dp[max(0,i-1)]
-            buy2 = costs[1] + dp[max(0,i - 7)]
-            buy3 = costs[2] + dp[max(0,i - 30)]
-                
-            dp[i] = min(buy1, buy2, buy3)
-        return dp[days[-1]]
+                take2=cost[1]+ways(i+7)
+                take3=cost[2]+ways(i+30)
+            else:
+                take1=cost[0]+ways(i+1)
 
-       
+                take2=cost[1]+ways(i+7)
+                take3=cost[2]+ways(i+30)
+                skip=ways(i+1)
+            dp[i]= min(take1,take2,take3,skip)
+            return dp[i]
+        return ways(days[0])
+
