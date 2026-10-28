@@ -2,28 +2,28 @@ class Solution:
     def checkValidString(self, s: str) -> bool:
         dp = {}
 
-        def valid(i, open, close):
+        def valid(i, open):
             
-            if open<close:
+            if open<0:
                 return False
             if i >= len(s):
-                return open == close
+                return open == 0
 
-            state = (i, open, close)
+            state = (i, open)
             if state in dp:
                 return dp[state]
 
             if s[i] == "*":
                 dp[state] = (
-                    valid(i + 1, open, close) or
-                    valid(i + 1, open + 1, close) or
-                    valid(i + 1,open, close + 1)
+                    valid(i + 1, open) or
+                    valid(i + 1, open + 1) or
+                    valid(i + 1,open-1)
                 )
             elif s[i] == "(":
-                dp[state] = valid(i + 1, open + 1, close)
+                dp[state] = valid(i + 1, open + 1)
             elif s[i] == ")":
-                dp[state] = valid(i + 1, open, close + 1)
+                dp[state] = valid(i + 1, open-1)
 
             return dp[state]
 
-        return valid(0, 0, 0)
+        return valid(0, 0)
