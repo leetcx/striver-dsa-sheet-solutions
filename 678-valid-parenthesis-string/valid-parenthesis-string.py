@@ -5,7 +5,8 @@ class Solution:
         dp[n][0]=True
         for i in range(n-1,-1,-1):
             for open in range(n+1):
-
+                if open<0:
+                    dp[i][open]==False
                 
             
             
