@@ -6,7 +6,7 @@ class Solution:
                 result=1
             else:
                 result=0
-            if stair>k+1:
+            if stair-k>1:
                 return 0
             state=(stair,jump,used)
             if state in dp:
