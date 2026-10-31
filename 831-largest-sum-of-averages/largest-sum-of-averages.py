@@ -11,8 +11,10 @@ class Solution:
             if state in dp:
                 return dp[state]
             maxscore=float('-inf')
+            s1=0
             for j in range(i,len(nums)):
-                score=sum(nums[i:j+1])/len(nums[i:j+1]) + lesgo(j+1,k-1)
+                s1+=nums[j]
+                score=s1/len(nums[i:j+1]) + lesgo(j+1,k-1)
                 maxscore=max(score,maxscore)
             dp[state]= maxscore
             return dp[state]
