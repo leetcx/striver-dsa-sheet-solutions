@@ -1,28 +1,28 @@
-from collections import deque
+
 class Solution:
     def findOrder(self, n: int, pr: list[list[int]]) -> list[int]:
-        indeg=[0] * n
-        q=deque()
-        for i in range(len(pr)):
-            indeg[pr[i][0]]+=1
+        st=[]
+        visited=[False] * n
+        inrecur=[False] * n
         adj=[[] for _ in range(n)]
         for u,v in pr:
             adj[v].append(u)
-        for p in range(len(indeg)):
-            if indeg[p]==0:
-                q.append(p)
-        ans=[]
+        def dfs(adj,node):
+            visited[node]=True
+            inrecur[node]=True
+            for neigh in adj[node]:
+                if visited[neigh]==False and dfs(adj,neigh):
+                    return []
+                elif inrecur[neigh]==True:
+                    return []
+            inrecur[node]=False
+            st.append(node)
         for z in range(len(adj)):
-            while q:
-                node=q.popleft()
-                ans.append(node)
-                for neigh in adj[node]:
-                    indeg[neigh]-=1
-                    if indeg[neigh]==0:
-                        q.append(neigh)
-        if len(ans)==n:
-            return ans
-        return []
-        
+            if visited[z]==False:
+                dfs(adj,z)
+        if len(st)==n:
+            return st[::-1]    
+        else:
+            return []
 
         
