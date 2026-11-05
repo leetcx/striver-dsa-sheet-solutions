@@ -1,31 +1,23 @@
 class Solution:
-    def canFinish(self, n: int, pr: List[List[int]]) -> bool:
+    def canFinish(self, n: int, pr: list[list[int]]) -> bool:
+        
+        inrecur=[False] * n
+        visited=[False] * n
+        
         adj=[[] for _ in range(n)]
-        visited=[False]*n
-        for i in range(len(pr)):
-            s=pr[i][0]
-            d=pr[i][1]
-            adj[d].append(s)
-           
-        path=[False] * n
-        def mi(node):
-            
-            if path[node]:
-                return False
-            if visited[node]:
-                return True
-
-            path[node]=True
+        for u,v in pr:
+            adj[v].append(u)
+        def iscycle(adj,node):
             visited[node]=True
-            for i in range(len(adj[node])):
-                neigh=adj[node][i]
-                
-                if mi(neigh)==False:
-                    return False
-            path[node]=False
-            return True
-        for i in range(n):
-            if path[i]==False:
-                if mi(i)==False:
-                    return False
+            inrecur[node]=True
+            for neigh in adj[node]:
+                if visited[neigh]==False and iscycle(adj,neigh):
+                    return True
+                elif inrecur[neigh]==True:
+                    return True
+            inrecur[node]=False
+            return False
+        for i in range(len(adj)):
+            if visited[i]==False and iscycle(adj,i):
+                return False
         return True
