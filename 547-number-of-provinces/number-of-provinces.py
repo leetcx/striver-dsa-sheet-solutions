@@ -1,56 +1,21 @@
 class Solution:
-    def findCircleNum(self, edges: List[List[int]]) -> int:
-        n=len(edges)
-        adj =[[] for _ in range(n)]
-        visited=[False] * n
-        adj = [[] for _ in range(n)]
-        p=0
-
-        for i in range(n):
-            for j in range(n):
-                if edges[i][j] == 1 and i != j:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        p=len(isConnected)
+        adj=[[] for _ in range(p)]
+        visited=[False] * (p)
+        for i in range(len(isConnected)):
+            for j in range(p):
+                if i != j and isConnected[i][j]==1:
                     adj[i].append(j)
-        def dfs(node):
-            
-           
-            visited[node]= True
-            for t in range(len(adj[node])):
-                neigh=adj[node][t]
+                    adj[j].append(i)
+        def dfs(adj,node):
+            visited[node]=True
+            for neigh in adj[node]:
                 if visited[neigh]==False:
-                    dfs(neigh)
-        for k in range(n):
-            if visited[k]==False:
-                dfs(k)
-                p+=1
-        return p
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    dfs(adj,neigh)
+        count=0
+        for i in range(len(adj)):
+            if visited[i]==False:
+                dfs(adj,i)
+                count+=1
+        return count
