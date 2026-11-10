@@ -1,39 +1,45 @@
 from collections import deque
 class Solution:
-    def orangesRotting(self, grid: List[List[int]]) -> int:
+    def orangesRotting(self, grid: list[list[int]]) -> int:
         m=len(grid)
         n=len(grid[0])
         q=deque()
         fresh=0
-        time=0
-        x=[-1,1,0,0]
-        y=[0,0,-1,1]
-        visited=[[False]*n for _ in range(m)]
         for i in range(m):
-            for j in  range(n):
+            for j in range(n):
                 if grid[i][j]==1:
                     fresh+=1
-                if grid[i][j]==2:
+                elif grid[i][j]==2:
                     q.append((i,j))
-                    visited[i][j]=True
-        def valid(r,c,m,n):
-            if r<0 or r>=m or c<0 or c>=n:
-                return False
-            return True
+        if fresh==0:
+            return 0
+        time=0
         while q:
             p=len(q)
-            for i in range(p):
-                row,col=q.popleft()
-                for k in range(4):
-                    r=row+x[k]
-                    c=col+y[k]
-                    if valid(r,c,m,n) and visited[r][c]==False and grid[r][c]==1:
-                        fresh-=1
-                        visited[r][c]=True
-                        q.append((r,c))
+            while p>0:
+                i,j=q.popleft()
+                if i+1<m and grid[i+1][j]==1:
+                    grid[i+1][j]=2
+                    fresh-=1
+                    q.append((i+1,j))
+                if i-1>=0 and grid[i-1][j]==1:
+                    grid[i-1][j]=2
+                    fresh-=1
+                    q.append((i-1,j))
+                if j+1<n and grid[i][j+1]==1:
+                    grid[i][j+1]=2
+                    fresh-=1
+                    q.append((i,j+1))
+                if j-1>=0 and grid[i][j-1]==1:
+                    grid[i][j-1]=2
+                    fresh-=1
+                    q.append((i,j-1))
+                p-=1
             if q:
                 time+=1
-        if fresh>0:
-            return -1
-        return time
-        
+        if fresh==0:
+            return time
+        return -1
+
+
+
