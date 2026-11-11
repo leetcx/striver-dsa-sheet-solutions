@@ -10,8 +10,7 @@ class Solution:
                 return  True
             visited[node]=True
             for neigh in adj[node]:
-                if neigh==destination:
-                    return True
+                
                 if visited[neigh]==False and dfs(neigh):
                     return True
             return False
