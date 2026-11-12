@@ -1,41 +1,47 @@
+
 class Solution:
     def longestPath(self, parent: list[int], s: str) -> int:
         n = len(parent)
 
         adj = [[] for _ in range(n)]
 
-        for i in range(1, n):
-            p = parent[i]
-            adj[p].append(i)
+        for node in range(1, n):
+            p = parent[node]
+            adj[p].append(node)
+            adj[node].append(p)
 
-        count = [0] * n
-        result = []
+        result = 1
 
-        def dfs(node):
-            count[node] = 1
+        def dfs(node, parent, adj):
+            nonlocal result
 
-            for neigh in adj[node]:
-                dfs(neigh)
-
-                if s[node] != s[neigh]:
-                    count[node] = max(count[node],
-                                      1 + count[neigh])
-
-            branches = []
+            longest = 0
+            secondlargest = 0
 
             for neigh in adj[node]:
-                if s[node] != s[neigh]:
-                    branches.append(count[neigh])
+                if neigh == parent:
+                    continue
 
-            branches.sort(reverse=True)
+                childlength = dfs(neigh, node, adj)
 
-            if len(branches) >= 2:
-                result.append(1 + branches[0] + branches[1])
-            elif len(branches) == 1:
-                result.append(1 + branches[0])
-            else:
-                result.append(1)
+                if s[neigh] == s[node]:
+                    continue
 
-        dfs(0)
+                if childlength > secondlargest:
+                    secondlargest = childlength
 
-        return max(result)
+                if secondlargest > longest:
+                    temp = longest
+                    longest = secondlargest
+                    secondlargest = temp
+
+            p = 1 + max(longest, secondlargest)
+            d = 1
+            z = 1 + longest + secondlargest
+
+            result = max(result, p, d, z)
+
+            return max(p, d)
+
+        dfs(0, -1, adj)
+        return result
