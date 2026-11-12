@@ -19,14 +19,14 @@ class Solution:
             for neigh in adj[node]:
                 if visited[neigh] == False:
                     visited[neigh] = True
-                    dfscount += 1
+                    
 
                     child_found = dfs(neigh, adj)
 
                     if child_found:
                         minstep += 1
 
-                    dfscount -= 1
+                    
                     found = found or child_found
 
             return found
