@@ -1,19 +1,17 @@
 class Solution:
-    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        
-        res=[float(inf)] * (n)
-        res[src]=0
-        
+    def findCheapestPrice(self, n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
+        adj=[[] for _ in range(n)]
+        for u,v,w in flights:
+            adj[u].append((v,w))
+        distance=[float('inf')] *n
+        distance[src]=0
         for i in range(k+1):
-            temp=res.copy()
-            for j in range(len(flights)):
-                s=flights[j][0]
-                d=flights[j][1]
-                wt=flights[j][2]
-                if temp[d] > res[s] + wt:
-                    temp[d]= res[s] +wt
-            res=temp
-        k=res[dst]
-        if k == float('inf'):
+            temp=distance.copy()
+            for u,v,w in flights:
+                if distance[u] != float('inf'):
+                    if distance[u]+w<temp[v]:
+                        temp[v]=distance[u]+w
+            distance=temp
+        if distance[dst]==float('inf'):
             return -1
-        return k
+        return distance[dst]
