@@ -10,8 +10,11 @@ class Solution:
             nonlocal ans
             visited[node]=True
             for neigh,cost in adj[node]:
+                
                 if visited[neigh]==False:
-                    ans+=cost
+                    if cost==1:
+                        ans+=1
+                
                     dfs(neigh,adj,visited)
         dfs(0,adj,visited)
         return ans
