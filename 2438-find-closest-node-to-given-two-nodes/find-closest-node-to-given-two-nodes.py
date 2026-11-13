@@ -1,4 +1,4 @@
-import heapq
+from collections import deque
 class Solution:
     def closestMeetingNode(self, edges: list[int], node1: int, node2: int) -> int:
         n=len(edges)
@@ -13,7 +13,7 @@ class Solution:
         visited[node1]=True
         node1dist[node1]=0
         minheap=[]
-        heapq.heappush(minheap,(0,node1))
+        minheap.append((0,node1))
         while minheap:
             dist,node=heapq.heappop(minheap)
             if dist>node1dist[node]:
@@ -22,7 +22,7 @@ class Solution:
                 if node1dist[neigh]>1+dist:
                     node1dist[neigh]=1+dist
                 
-                    heapq.heappush(minheap,(1+dist,neigh))
+                    minheap.append((1+dist,neigh))
         node2dist=[float('inf')] * n
        
         node2dist[node2]=0
