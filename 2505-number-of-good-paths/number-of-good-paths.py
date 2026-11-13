@@ -1,64 +1,62 @@
 class Solution:
     def numberOfGoodPaths(self, vals: list[int], edges: list[list[int]]) -> int:
-        n = len(vals)
-        adj = [[] for _ in range(n)]
-
-        for u, v in edges:
+        n=len(vals)
+        adj=[[] for _ in range(n)]
+        for u,v in edges:
             adj[u].append(v)
             adj[v].append(u)
-
-        groups = {}
-        for i in range(n):
-            if vals[i] not in groups:
-                groups[vals[i]] = []
-            groups[vals[i]].append(i)
-
-        parent = list(range(n))
-        isactive = [False] * n
-
-        def find(x):
-            if parent[x] != x:
-                parent[x] = find(parent[x])
+        dict1={}
+        for i in range(len(vals)):
+            if vals[i] not in dict1:
+                dict1[vals[i]]=[]
+            dict1[vals[i]].append(i)
+        rank=[0]*n
+        parent=[]
+        for u in range(n):
+            parent.append(u)
+        def find(x,parent):
+            if parent[x]==x:
+                return x
+            parent[x]=find(parent[x],parent)
             return parent[x]
-
-        def union(u, v):
-            pu = find(u)
-            pv = find(v)
-
-            if pu != pv:
-                parent[pv] = pu
-
-        ans = n
-
-        for value in sorted(groups):
-            nodes = groups[value]
-
-            for node in nodes:
-                isactive[node] = True
-
-            for node in nodes:
+        def union(x,y):
+            parent_x=find(x,parent)
+            
+            parent_y=find(y,parent)
+            if parent_x==parent_y:
+                return
+            if rank[parent_x]>rank[parent_y]:
+                parent[parent_y]=parent_x
+            elif rank[parent_x]<rank[parent_y]:
+                parent[parent_x]=parent_y
+            else:
+                parent[parent_x]=parent_y
+                rank[parent_y]+=1
+        activate=[False]*n
+        ans=n
+        for values in sorted(dict1):
+            for node in dict1[values]:
+                activate[node]=True
+            for node in dict1[values]:
                 for neigh in adj[node]:
-                    if isactive[neigh]:
-                        union(node, neigh)
-
+                    if activate[neigh]==True:
+                        union(node,neigh)
+            count = [0] * n
             roots = []
 
-            for node in nodes:
-                roots.append(find(node))
+            for node in dict1[values]:
+                root = find(node, parent)
 
-            roots.sort()
+                if count[root] == 0:
+                    roots.append(root)
 
-            j = 0
-            sz = len(roots)
+                count[root] += 1
 
-            while j < sz:
-                count = 0
-                curr_parent = roots[j]
-
-                while j < sz and roots[j] == curr_parent:
-                    count += 1
-                    j += 1
-
-                ans += count * (count - 1) // 2
-
+            for root in roots:
+                c = count[root]
+                ans += c * (c - 1) // 2
         return ans
+        
+
+        
+           
