@@ -41,22 +41,16 @@ class Solution:
                 for neigh in adj[node]:
                     if activate[neigh]==True:
                         union(node,neigh)
-            count = [0] * n
-            roots = []
+            count = {}
 
             for node in dict1[values]:
                 root = find(node, parent)
 
-                if count[root] == 0:
-                    roots.append(root)
+                if root not in count:
+                    count[root] = 0
 
                 count[root] += 1
 
-            for root in roots:
-                c = count[root]
+            for c in count.values():
                 ans += c * (c - 1) // 2
         return ans
-        
-
-        
-           
