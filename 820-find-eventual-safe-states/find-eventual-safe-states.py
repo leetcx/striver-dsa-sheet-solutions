@@ -23,10 +23,8 @@ class Solution:
                    
                     inrecur[node]=False
                     return False
-                if visited[neigh] and neigh not in dict1:
-                    inrecur[node]=False
-
-                    return False
+               
+                    
                 
             inrecur[node]=False
             dict1[node]=1
