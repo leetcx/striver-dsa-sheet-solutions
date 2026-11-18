@@ -46,6 +46,7 @@ class Solution:
             for start in active:
                 if dijkstra(start,active)>maxDistance:
                     valid=False
+                    break
             if valid==True:
                 count+=1
         return count
