@@ -1,25 +1,35 @@
 class Solution:
     def removeStones(self, stones: list[list[int]]) -> int:
-        totalstones=len(stones)
-        compo=0
-        visited=[False]*len(stones)
-        def dfs(z,i,j):
-            visited[z]=True
-            for p in range(len(stones)):
-                r,c=stones[p]
-                if i==r and visited[p]==False:
-                    visited[p]=True
-                    dfs(p,r,c)
-            for t in range(len(stones)):
-                r,c=stones[t]
-                if c==j and visited[t]==False:
-                    visited[t]=True
-                    dfs(t,r,c)
-            
+        n=len(stones)
+        rank=[0]*n
+        parent=[]
+        for i in range(n):
+            parent.append(i)
+        def find(x,parent):
+            if x==parent[x]:
+                return x
+            parent[x]=find(parent[x],parent)
+            return parent[x]
+        def union(x,y):
+            parent_x=find(x,parent)
+            parent_y=find(y,parent)
+            if parent_x == parent_y:
+                return
+            if rank[parent_x]>rank[parent_y]:
+                parent[parent_y]=parent_x
+            elif rank[parent_y]>rank[parent_x]:
+                parent[parent_x]=parent_y
+            else:
+                parent[parent_x]=parent_y
+                rank[parent_y]+=1
 
-        for z in range(len(stones)):
+        count=0
+        for i in range(len(stones)):
+            for j in range(i+1,n):
+                if stones[i][0]==stones[j][0] or stones[i][1]==stones[j][1]:
+                    if find(i,parent) !=find(j,parent):
+                        union(i,j)
+                        count+=1
+        return count
+
             
-            if visited[z]==False:
-                compo+=1
-                dfs(z,stones[z][0],stones[z][1])
-        return (totalstones-compo)
