@@ -1,50 +1,63 @@
 class Solution:
     def maxNumEdgesToRemove(self, n: int, edges: list[list[int]]) -> int:
-        aliceparent=list(range(n + 1))
-        bobparent=list(range(n + 1))
-        alicerank = [0] * (n + 1)
-        bobrank = [0] * (n + 1)
-        def find(node,parent):
-            if node==parent[node]:
-                return node
-            parent[node]=find(parent[node],parent)
-            return parent[node]
-        def union(x,y,rank,parent):
+        parent_alice=[]
+        parent_bob=[]
+        rankalice=[0]*(n+1)
+        rankbob=[0]*(n+1)
+        for i in range(n+1):
+            parent_alice.append(i)
+            parent_bob.append(i) 
+        def find(x,parent):
+            if x==parent[x]:
+                return x
+            parent[x]=find(parent[x],parent)
+            return parent[x]
+        def union(x,y,parent,rank):
             parent_x=find(x,parent)
             parent_y=find(y,parent)
             if parent_x==parent_y:
-                return False
+                return
             if rank[parent_x]>rank[parent_y]:
                 parent[parent_y]=parent_x
-            elif rank[parent_x]<rank[parent_y]:
+            elif rank[parent_y]>rank[parent_x]:
                 parent[parent_x]=parent_y
             else:
                 parent[parent_x]=parent_y
                 rank[parent_y]+=1
-            return True
+
         count=0
-        for type1,u,v in edges:
+        for type1,u,v in  edges:
             if type1==3:
-                a=union(u,v,alicerank,aliceparent)
-                b=union(u,v,bobrank,bobparent)
-                if a==False and b==False:
+                merged=False
+                if find(u,parent_alice) != find(v,parent_alice):
+                    union(u,v,parent_alice,rankalice)
+                    merged=True
+                if find(u, parent_bob) != find(v, parent_bob):
+                    union(u, v, parent_bob,rankbob) 
+                    merged=True
+                if not merged:
+                    count+=1
+                 
+        for type1,u,v in edges:
+            if type1==2:
+                if find(u, parent_bob) != find(v, parent_bob):
+                    union(u, v, parent_bob,rankbob)
+                else:
                     count+=1
         for type1,u,v in edges:
             if type1==1:
-                a=union(u,v,alicerank,aliceparent)
-                if a==False:
+                if find(u,parent_alice) != find(v,parent_alice):
+                    union(u,v,parent_alice,rankalice)
+                else:
                     count+=1
-        for type1,u,v in edges:
-            if type1==2:
-            
-                b=union(u,v,bobrank,bobparent)
-                if b==False:
-                    count+=1
-        aliceroot=find(1,aliceparent)
-        bobroot=find(1,bobparent)
-        for j in range(1,n+1):
-            if find(j,aliceparent) != aliceroot:
+        compo=1
+        for i in range(2,n+1):
+            if find(i,parent_alice) != find(1,parent_alice):
                 return -1
-            if find(j,bobparent) != bobroot:
+            if find(i,parent_bob) != find(1,parent_bob):
                 return -1
         return count
+
+        
+        
+
