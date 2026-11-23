@@ -1,23 +1,33 @@
 class Solution:
-    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        m=len(edges)
-        adj=[[] for _ in range(m+1)]
-        def dfs(i,j,visited,adj):
-            visited[i]=True
-            for k in range(len(adj[i])):
-                neigh=adj[i][k]
-                if neigh==j:
-                    return True
-                if visited[neigh]==False:
-                    if dfs(neigh,j,visited,adj):
-                        return True
-            return False
-
-        for i in range(m):
-            visited=[False] * (m+1)
-            s=edges[i][0]
-            d=edges[i][1]
-            if dfs(s,d,visited,adj)==True:
-                return [s,d]
-            adj[s].append(d)
-            adj[d].append(s)
+    def findRedundantConnection(self, edges: list[list[int]]) -> list[int]:
+        n=len(edges)
+        parent=[]
+        for i in range(n+1):
+            parent.append(i)
+        rank=[0]*(n+1)
+        def find(x,parent):
+            if parent[x]==x:
+                return x
+            parent[x]=find(parent[x],parent)
+            return parent[x]
+        def union(x,y):
+            parent_x=find(x,parent)
+            parent_y=find(y,parent)
+            if parent_x==parent_y:
+                return
+            if rank[parent_x]>rank[parent_y]:
+                parent[parent_y]=parent_x
+            elif rank[parent_y]>rank[parent_x]:
+                parent[parent_x]=parent_y
+            else:
+                parent[parent_x]=parent_y
+                rank[parent_y]+=1
+        
+        for u,v in edges:
+            parent_u=find(u,parent)
+            parent_v=find(v,parent)
+            if parent_u==parent_v:
+                return [u,v]
+            else:
+                union(u,v)
+        
