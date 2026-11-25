@@ -6,6 +6,7 @@ class Solution:
         minheap=[]
         heapq.heappush(minheap,(grid[0][0],0,0))
         distance=[[float('inf')] * n for _ in range(n)]
+        distance[0][0] = grid[0][0]
         while minheap:
             dist,row,col=heapq.heappop(minheap)
 
@@ -17,11 +18,13 @@ class Solution:
                 nr=p+row
                 nc=k+col
                 if nr>=0 and nr<n and nc>=0 and nc<n:
-                    newdist = dist
-
-                    if grid[nr][nc] > dist:
-                        newdist = grid[nr][nc]
-
-                    if distance[nr][nc] > newdist:
-                        distance[nr][nc] = newdist
-                        heapq.heappush(minheap, (newdist, nr, nc))
+                    if distance[row][col] < grid[nr][nc]:
+                        if distance[nr][nc] > grid[nr][nc]:
+                            distance[nr][nc]=grid[nr][nc]
+                            heapq.heappush(minheap,(grid[nr][nc],nr,nc))
+                        
+                    elif distance[row][col]>=grid[nr][nc]:
+                        if distance[nr][nc] > distance[row][col]:
+                            distance[nr][nc]=distance[row][col]
+                            heapq.heappush(minheap,(distance[row][col],nr,nc))
+        
