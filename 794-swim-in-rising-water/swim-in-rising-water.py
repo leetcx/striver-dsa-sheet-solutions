@@ -1,29 +1,27 @@
 import heapq
 class Solution:
-    def swimInWater(self, grid: List[List[int]]) -> int:
+    def swimInWater(self, grid: list[list[int]]) -> int:
         n=len(grid)
-        x=[-1,1,0,0]
-        y=[0,0,-1,1]
-        q=[]
-        heapq.heappush(q,(grid[0][0],0,0))
-        res = [[float('inf')] * n for _ in range(n)]
-        res[0][0]=grid[0][0]
-        def valid(r,c,n):
-            if r<0 or r>=n or c<0 or c>=n:
-                return False
-            return True
-        while q:
-            dist,row,col=heapq.heappop(q)
+        direction=[(0,1),(1,0),(0,-1),(-1,0)]
+        minheap=[]
+        heapq.heappush(minheap,(grid[0][0],0,0))
+        distance=[[float('inf')] * n for _ in range(n)]
+        while minheap:
+            dist,row,col=heapq.heappop(minheap)
+
+            if dist>distance[row][col]:
+                continue
             if row==n-1 and col==n-1:
                 return dist
-            if dist > res[row][col]:
-                continue
-            for k in range(4):
-                r=row+x[k]
-                c=col+y[k]
-                if valid(r,c,n):
-                    t=max(dist,grid[r][c])
-                    if t< res[r][c]:
-                        res[r][c]=t
-                        heapq.heappush(q,(t,r,c))
-        return res[n-1][n-1]
+            for p,k in direction:
+                nr=p+row
+                nc=k+col
+                if nr>=0 and nr<n and nc>=0 and nc<n:
+                    newdist = dist
+
+                    if grid[nr][nc] > dist:
+                        newdist = grid[nr][nc]
+
+                    if distance[nr][nc] > newdist:
+                        distance[nr][nc] = newdist
+                        heapq.heappush(minheap, (newdist, nr, nc))
