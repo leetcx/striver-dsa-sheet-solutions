@@ -1,51 +1,52 @@
 
-from collections import deque
 from sortedcontainers import SortedList
+from typing import List
 
 class Solution:
     def processQueries(self, c: int, connections: List[List[int]], queries: List[List[int]]) -> List[int]:
-        set1 = {}
-        adj = [[] for _ in range(c+1)]
-        p = 0
-        visited = [False] * (c+1)
 
+        parent = [i for i in range(c+1)]
+        rank = [0] * (c+1)
+
+        def find(x):
+            if parent[x] != x:
+                parent[x] = find(parent[x])
+            return parent[x]
+
+        def union(u, v):
+            pu = find(u)
+            pv = find(v)
+
+            if pu == pv:
+                return
+
+            if rank[pu] < rank[pv]:
+                parent[pu] = pv
+            elif rank[pu] > rank[pv]:
+                parent[pv] = pu
+            else:
+                parent[pv] = pu
+                rank[pu] += 1
+
+        # Build connected components
         for u, v in connections:
-            adj[u].append(v)
-            adj[v].append(u)
+            union(u, v)
 
-        def bfs(node, adj):
-            q = deque()
-            q.append(node)
-            visited[node] = True
-            temp = []
-
-            while q:
-                do = q.popleft()
-                temp.append(do)
-
-                for neigh in adj[do]:
-                    if not visited[neigh]:
-                        visited[neigh] = True
-                        q.append(neigh)
-
-            return temp
+        # Store online nodes in each component
+        set1 = {}
 
         for i in range(1, c+1):
-            if not visited[i]:
-                z = bfs(i, adj)
-                set1[p] = SortedList(z)
-                p += 1
+            key = find(i)
 
-        component = [0] * (c+1)
+            if key not in set1:
+                set1[key] = SortedList()
 
-        for key, value in set1.items():
-            for node in value:
-                component[node] = key
+            set1[key].add(i)
 
         ans = []
 
         for u, v in queries:
-            key = component[v]
+            key = find(v)
 
             if u == 1:
                 if v in set1[key]:
@@ -54,6 +55,7 @@ class Solution:
                     ans.append(set1[key][0])
                 else:
                     ans.append(-1)
+
             else:
                 set1[key].discard(v)
 
