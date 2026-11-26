@@ -2,11 +2,14 @@ from collections import deque
 class Solution:
     def findLexSmallestString(self, s: str, a: int, b: int) -> str:
         visited=set()
-        ans=float('inf')
+        ans=s
         q=deque()
         q.append(s)
+        visited.add(s)
         while q:
             node=q.popleft()
+            
+            ans=min(ans,node)
             new1=list(node)
             for i in range(len(node)):
                 if i%2==1:
@@ -17,6 +20,7 @@ class Solution:
             new1 = "".join(new1)
 
             if new1 not in visited:
+                
                 q.append(new1)
                 visited.add(new1)
             new2=""
@@ -25,7 +29,7 @@ class Solution:
             if new2 not in visited:
                 q.append(new2)
                 visited.add(new2)
-        return min(visited)
+        return ans
                 
                     
 
