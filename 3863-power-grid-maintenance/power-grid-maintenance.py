@@ -1,6 +1,6 @@
 
 from collections import deque
-import heapq
+from sortedcontainers import SortedList
 
 class Solution:
     def processQueries(self, c: int, connections: List[List[int]], queries: List[List[int]]) -> List[int]:
@@ -33,38 +33,28 @@ class Solution:
         for i in range(1, c+1):
             if not visited[i]:
                 z = bfs(i, adj)
-                set1[p] = z
+                set1[p] = SortedList(z)
                 p += 1
 
         component = [0] * (c+1)
-        heaps = {}
 
         for key, value in set1.items():
-            heaps[key] = value[:]
-            heapq.heapify(heaps[key])
-
             for node in value:
                 component[node] = key
 
-        online = [True] * (c+1)
         ans = []
 
         for u, v in queries:
+            key = component[v]
+
             if u == 1:
-                if online[v]:
+                if v in set1[key]:
                     ans.append(v)
+                elif set1[key]:
+                    ans.append(set1[key][0])
                 else:
-                    key = component[v]
-
-                    while heaps[key] and not online[heaps[key][0]]:
-                        heapq.heappop(heaps[key])
-
-                    if heaps[key]:
-                        ans.append(heaps[key][0])
-                    else:
-                        ans.append(-1)
-
+                    ans.append(-1)
             else:
-                online[v] = False
+                set1[key].discard(v)
 
         return ans
