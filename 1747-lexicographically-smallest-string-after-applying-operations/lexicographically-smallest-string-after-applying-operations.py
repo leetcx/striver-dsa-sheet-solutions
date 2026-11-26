@@ -12,7 +12,7 @@ class Solution:
                 if i%2==1:
                     z=int(node[i]) + a
                     if z>9:
-                        z=z%10
+                        z=z-10
                     new1[i]=str(z)
             new1 = "".join(new1)
 
