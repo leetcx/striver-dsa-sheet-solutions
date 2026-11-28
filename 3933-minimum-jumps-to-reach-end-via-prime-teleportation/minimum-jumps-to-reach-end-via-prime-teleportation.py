@@ -5,6 +5,9 @@ from typing import List
 class Solution:
     def minJumps(self, nums: List[int]) -> int:
         n = len(nums)
+        if n == 1:
+            return 0
+
         set1 = {}
 
         for i in range(n):
@@ -24,21 +27,10 @@ class Solution:
                 for j in range(i * i, maxi + 1, i):
                     prime[j] = False
 
-        q = deque()
-        q.append(0)
-
-        processed = set()
+        q = deque([0])
         visited = [False] * n
         visited[0] = True
-
-        adj = [[] for _ in range(n)]
-
-        for i in range(n):
-            if i - 1 >= 0:
-                adj[i].append(i - 1)
-            if i + 1 < n:
-                adj[i].append(i + 1)
-
+        processed = set()
         level = 0
 
         while q:
@@ -51,10 +43,13 @@ class Solution:
                 if node == n - 1:
                     return level
 
-                for neigh in adj[node]:
-                    if not visited[neigh]:
-                        visited[neigh] = True
-                        q.append(neigh)
+                if node - 1 >= 0 and not visited[node - 1]:
+                    visited[node - 1] = True
+                    q.append(node - 1)
+
+                if node + 1 < n and not visited[node + 1]:
+                    visited[node + 1] = True
+                    q.append(node + 1)
 
                 z = nums[node]
 
